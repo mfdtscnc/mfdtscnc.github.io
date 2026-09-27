@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta name="robots" content="noindex, nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Englisch Klasse 5 – Übungsblatt (Greenline 1)</title>
+  <style>
+    :root {
+      --primary-color: #1e3a8a;
+      --accent-color: #0284c7;
+      --border-color: #cbd5e1;
+      --line-color: #94a3b8;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --solution-color: #15803d;
+      --bg-header: #f8fafc;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text-main);
+      background-color: #f1f5f9;
+      line-height: 1.4;
+      font-size: 13.5px;
+    }
+
+    /* Screen Toolbar */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: white;
+      padding: 12px 24px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      max-width: 1000px;
+      margin: 0 auto 20px auto;
+      border-radius: 0 0 12px 12px;
+    }
+
+    .toolbar-info {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .toolbar-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 13px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--primary-color);
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #1e40af;
+    }
+
+    .btn-outline {
+      background: white;
+      border-color: var(--border-color);
+      color: var(--text-main);
+    }
+    .btn-outline:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    /* Sheet Page Container */
+    .sheet-container {
+      max-width: 960px;
+      margin: 0 auto 40px auto;
+      background: white;
+      padding: 32px 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      border-radius: 8px;
+    }
+
+    /* Header Block */
+    .sheet-header {
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+
+    .sheet-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .title-left h1 {
+      font-size: 22px;
+      color: var(--primary-color);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .title-left p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .badge-grade {
+      background: #e0e7ff;
+      color: #3730a3;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .student-fields {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 16px;
+      background: var(--bg-header);
+      padding: 10px 16px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      font-size: 13px;
+    }
+
+    .field-item {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .field-line {
+      flex: 1;
+      border-bottom: 1px dotted var(--line-color);
+      height: 16px;
+    }
+
+    /* Section Headings */
+    .section-title {
+      font-size: 16px;
+      color: var(--primary-color);
+      margin: 24px 0 12px 0;
+      padding-bottom: 6px;
+      border-bottom: 1.5px solid var(--accent-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-desc {
+      font-size: 12px;
+      font-weight: normal;
+      color: var(--text-muted);
+    }
+
+    /* Vocabulary 2-Column Grid */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 24px;
+      row-gap: 6px;
+    }
+
+    .vocab-row {
+      display: flex;
+      align-items: flex-end;
+      min-height: 28px;
+      padding: 2px 0;
+      border-bottom: 1px solid #f1f5f9;
+      break-inside: avoid;
+    }
+
+    .vocab-num {
+      width: 24px;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .vocab-german {
+      width: 46%;
+      font-weight: 600;
+      padding-right: 8px;
+      color: #1e293b;
+      word-break: break-word;
+    }
+
+    .vocab-english {
+      flex: 1;
+      border-bottom: 1px dotted var(--line-color);
+      min-height: 22px;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 4px;
+      position: relative;
+    }
+
+    /* Sentences Table */
+    .sentence-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sentence-card {
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 8px 12px;
+      background: white;
+      break-inside: avoid;
+    }
+
+    .sentence-header {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .sentence-num {
+      font-weight: 700;
+      color: var(--accent-color);
+      font-size: 12px;
+      min-width: 22px;
+    }
+
+    .sentence-german {
+      font-weight: 600;
+      color: #0f172a;
+      flex: 1;
+    }
+
+    .sentence-english-line {
+      border-bottom: 1px dotted var(--line-color);
+      min-height: 26px;
+      margin-left: 30px;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 6px 2px 6px;
+      position: relative;
+    }
+
+    /* Solution Styling (Hidden by default) */
+    .solution-text {
+      display: none;
+      color: var(--solution-color);
+      font-weight: 600;
+      font-family: "Comic Sans MS", "Caveat", "Segoe Print", cursive, sans-serif;
+      font-size: 13.5px;
+    }
+
+    body.show-solutions .solution-text {
+      display: inline-block;
+    }
+
+    body.show-solutions .vocab-english {
+      border-bottom-style: solid;
+      border-bottom-color: #86efac;
+      background-color: #f0fdf4;
+    }
+
+    body.show-solutions .sentence-english-line {
+      border-bottom-style: solid;
+      border-bottom-color: #86efac;
+      background-color: #f0fdf4;
+    }
+
+    .grammar-box {
+      border: 1px solid var(--border-color);
+      background: #fafafa;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      break-inside: avoid;
+    }
+
+    .grammar-item {
+      display: flex;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .grammar-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .grammar-german {
+      width: 260px;
+      font-weight: 600;
+    }
+
+    .grammar-english {
+      flex: 1;
+      border-bottom: 1px dotted var(--line-color);
+      min-height: 22px;
+      padding: 0 4px;
+    }
+
+    .page-break-hint {
+      margin: 20px 0;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      border-top: 1px dashed var(--border-color);
+      padding-top: 8px;
+    }
+
+    /* PRINT STYLES */
+    @media print {
+      body {
+        background: white !important;
+        font-size: 12px;
+        color: black !important;
+      }
+
+      .toolbar {
+        display: none !important;
+      }
+
+      .sheet-container {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+      }
+
+      .page-break-hint {
+        display: none;
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 10mm 12mm 12mm 12mm;
+      }
+
+      .sheet-header {
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+      }
+
+      .section-title {
+        margin: 16px 0 8px 0;
+        font-size: 14px;
+      }
+
+      .vocab-row {
+        min-height: 25px;
+      }
+
+      .sentence-card {
+        padding: 6px 10px;
+        margin-bottom: 6px;
+        border: 1px solid #ccc;
+      }
+
+      .sentence-english-line {
+        min-height: 24px;
+      }
+
+      .page-break-before {
+        page-break-before: always;
+        break-before: page;
+        padding-top: 10mm;
+      }
+    }
+  </style>
+</head>
+<body>
+<nav style="font:15px/1.4 system-ui,-apple-system,sans-serif;padding:10px 16px;max-width:60rem;margin:0 auto"><a href="../l-1r030d1h/" style="color:inherit">← Alle Lernseiten</a></nav>
+
+  <!-- Screen Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-info">
+      <strong>Englisch Klasse 5 – Greenline 1:</strong> Druckfertiges Übungsblatt mit Schreiblinien
+    </div>
+    <div class="toolbar-buttons">
+      <button class="btn btn-outline" id="toggleBtn" onclick="toggleSolutions()">
+        <span>👁️</span> Lösungen einblenden
+      </button>
+      <button class="btn btn-primary" onclick="window.print()">
+        <span>🖨️</span> Drucken / Als PDF speichern
+      </button>
+    </div>
+  </div>
+
+  <!-- Worksheet Container -->
+  <div class="sheet-container">
+    
+    <!-- Header -->
+    <header class="sheet-header">
+      <div class="sheet-title-row">
+        <div class="title-left">
+          <h1>Greenline 1 – Großes Übungsblatt</h1>
+          <p>Themen: Pick-up A, Unit 1 – Vokabeln, Grammatik &amp; Ganze Sätze</p>
+        </div>
+        <div class="badge-grade">Klasse 5</div>
+      </div>
+
+      <div class="student-fields">
+        <div class="field-item">
+          <span class="field-label">Name:</span>
+          <div class="field-line"></div>
+        </div>
+        <div class="field-item">
+          <span class="field-label">Klasse:</span>
+          <div class="field-line"></div>
+        </div>
+        <div class="field-item">
+          <span class="field-label">Datum:</span>
+          <div class="field-line"></div>
+        </div>
+        <div class="field-item">
+          <span class="field-label">Punkte:</span>
+          <div class="field-line"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- TEIL 1: VOKABELN -->
+    <section>
+      <h2 class="section-title">
+        <span>Teil 1: Vokabeln &amp; Rechtschreibung</span>
+        <span class="section-desc">Übersetze die Wörter ins Englische. Achte auf die korrekte Rechtschreibung!</span>
+      </h2>
+
+      <div class="vocab-grid">
+        <!-- Spalte 1 & 2 im Wechsel oder nacheinander -->
+        
+        <div class="vocab-row">
+          <span class="vocab-num">1.</span>
+          <span class="vocab-german">weiß</span>
+          <div class="vocab-english"><span class="solution-text">white</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">2.</span>
+          <span class="vocab-german">das Boot</span>
+          <div class="vocab-english"><span class="solution-text">boat / the boat</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">3.</span>
+          <span class="vocab-german">großartig</span>
+          <div class="vocab-english"><span class="solution-text">great</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">4.</span>
+          <span class="vocab-german">München, Köln</span>
+          <div class="vocab-english"><span class="solution-text">Munich, Cologne</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">5.</span>
+          <span class="vocab-german">Mann (Ehemann)</span>
+          <div class="vocab-english"><span class="solution-text">husband</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">6.</span>
+          <span class="vocab-german">Schlafzimmer</span>
+          <div class="vocab-english"><span class="solution-text">bedroom</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">7.</span>
+          <span class="vocab-german">Regal (Sg. / Pl.)</span>
+          <div class="vocab-english"><span class="solution-text">shelf (pl. shelves)</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">8.</span>
+          <span class="vocab-german">Füchse (Mehrzahl)</span>
+          <div class="vocab-english"><span class="solution-text">foxes</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">9.</span>
+          <span class="vocab-german">überall</span>
+          <div class="vocab-english"><span class="solution-text">everywhere</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">10.</span>
+          <span class="vocab-german">Zahlen</span>
+          <div class="vocab-english"><span class="solution-text">numbers</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">11.</span>
+          <span class="vocab-german">Mädchen (Mehrzahl)</span>
+          <div class="vocab-english"><span class="solution-text">girls</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">12.</span>
+          <span class="vocab-german">mit ihren Eltern</span>
+          <div class="vocab-english"><span class="solution-text">with her parents</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">13.</span>
+          <span class="vocab-german">Klassenlehrer</span>
+          <div class="vocab-english"><span class="solution-text">tutor / form teacher</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">14.</span>
+          <span class="vocab-german">beschäftigt sein</span>
+          <div class="vocab-english"><span class="solution-text">to be busy</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">15.</span>
+          <span class="vocab-german">höflich</span>
+          <div class="vocab-english"><span class="solution-text">polite</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">16.</span>
+          <span class="vocab-german">(Natur)-Wissenschaften</span>
+          <div class="vocab-english"><span class="solution-text">Science</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">17.</span>
+          <span class="vocab-german">Donnerstag</span>
+          <div class="vocab-english"><span class="solution-text">Thursday</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">18.</span>
+          <span class="vocab-german">manchmal</span>
+          <div class="vocab-english"><span class="solution-text">sometimes</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">19.</span>
+          <span class="vocab-german">normalerweise / gewöhnlich</span>
+          <div class="vocab-english"><span class="solution-text">usually</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">20.</span>
+          <span class="vocab-german">immer</span>
+          <div class="vocab-english"><span class="solution-text">always</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">21.</span>
+          <span class="vocab-german">sofort</span>
+          <div class="vocab-english"><span class="solution-text">right away / immediately</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">22.</span>
+          <span class="vocab-german">Trainer</span>
+          <div class="vocab-english"><span class="solution-text">coach</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">23.</span>
+          <span class="vocab-german">Nachbar</span>
+          <div class="vocab-english"><span class="solution-text">neighbour</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">24.</span>
+          <span class="vocab-german">spielen (Theater spielen)</span>
+          <div class="vocab-english"><span class="solution-text">to act</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">25.</span>
+          <span class="vocab-german">vorsichtig</span>
+          <div class="vocab-english"><span class="solution-text">careful</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">26.</span>
+          <span class="vocab-german">der Sprecher</span>
+          <div class="vocab-english"><span class="solution-text">the speaker</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">27.</span>
+          <span class="vocab-german">der Klang seiner Stimme</span>
+          <div class="vocab-english"><span class="solution-text">the sound of his voice</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">28.</span>
+          <span class="vocab-german">Theaterszene</span>
+          <div class="vocab-english"><span class="solution-text">scene</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">29.</span>
+          <span class="vocab-german">jagen (er jagt)</span>
+          <div class="vocab-english"><span class="solution-text">to chase (he chases)</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">30.</span>
+          <span class="vocab-german">Mund und Nase</span>
+          <div class="vocab-english"><span class="solution-text">mouth and nose</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">31.</span>
+          <span class="vocab-german">Schulter, Knie, Zeh</span>
+          <div class="vocab-english"><span class="solution-text">shoulder, knee, toe</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">32.</span>
+          <span class="vocab-german">alle Teile des Körpers</span>
+          <div class="vocab-english"><span class="solution-text">all the parts of the body</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">33.</span>
+          <span class="vocab-german">wichtig</span>
+          <div class="vocab-english"><span class="solution-text">important</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">34.</span>
+          <span class="vocab-german">aufregend</span>
+          <div class="vocab-english"><span class="solution-text">exciting</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">35.</span>
+          <span class="vocab-german">endlich</span>
+          <div class="vocab-english"><span class="solution-text">at last / finally</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">36.</span>
+          <span class="vocab-german">gefährlich</span>
+          <div class="vocab-english"><span class="solution-text">dangerous</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">37.</span>
+          <span class="vocab-german">Spitzenqualität</span>
+          <div class="vocab-english"><span class="solution-text">top quality</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">38.</span>
+          <span class="vocab-german">Kleidungsgeschäft</span>
+          <div class="vocab-english"><span class="solution-text">clothes shop</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">39.</span>
+          <span class="vocab-german">20 Pfund</span>
+          <div class="vocab-english"><span class="solution-text">20 pounds</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">40.</span>
+          <span class="vocab-german">entrümpeln / ausräumen</span>
+          <div class="vocab-english"><span class="solution-text">to clear it out</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">41.</span>
+          <span class="vocab-german">ein Schnäppchen</span>
+          <div class="vocab-english"><span class="solution-text">a bargain</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">42.</span>
+          <span class="vocab-german">irgendjemand</span>
+          <div class="vocab-english"><span class="solution-text">someone / somebody</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">43.</span>
+          <span class="vocab-german">Anrufbeantworter</span>
+          <div class="vocab-english"><span class="solution-text">answering machine</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">44.</span>
+          <span class="vocab-german">Kuchen</span>
+          <div class="vocab-english"><span class="solution-text">cake</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">45.</span>
+          <span class="vocab-german">Vater</span>
+          <div class="vocab-english"><span class="solution-text">father / dad</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">46.</span>
+          <span class="vocab-german">hoffen</span>
+          <div class="vocab-english"><span class="solution-text">to hope</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">47.</span>
+          <span class="vocab-german">ich denke / glaube</span>
+          <div class="vocab-english"><span class="solution-text">I think</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">48.</span>
+          <span class="vocab-german">kaputt / zerbrochen</span>
+          <div class="vocab-english"><span class="solution-text">broken</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">49.</span>
+          <span class="vocab-german">Müll</span>
+          <div class="vocab-english"><span class="solution-text">rubbish</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">50.</span>
+          <span class="vocab-german">heiße Schokolade</span>
+          <div class="vocab-english"><span class="solution-text">hot chocolate</span></div>
+        </div>
+
+        <div class="vocab-row">
+          <span class="vocab-num">51.</span>
+          <span class="vocab-german">Millionen</span>
+          <div class="vocab-english"><span class="solution-text">million</span></div>
+        </div>
+        <div class="vocab-row">
+          <span class="vocab-num">52.</span>
+          <span class="vocab-german">unabhängig</span>
+          <div class="vocab-english"><span class="solution-text">independent</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEIL 2: GRAMMATIK & RECHTSCHREIBUNG -->
+    <section style="margin-top: 20px;">
+      <h2 class="section-title">
+        <span>Teil 2: Grammatik &amp; Rechtschreibregeln</span>
+        <span class="section-desc">Regeln für Großschreibung und Plural</span>
+      </h2>
+
+      <div class="grammar-box">
+        <div class="grammar-item">
+          <span class="grammar-german">Länderbezeichnungen (großgeschrieben):<br><small style="color:var(--text-muted); font-weight:normal;">„Er ist Engländer / mein deutscher Cousin“</small></span>
+          <div class="grammar-english"><span class="solution-text">He is English / my German cousin</span></div>
+        </div>
+        <div class="grammar-item">
+          <span class="grammar-german">Schulfächer (großgeschrieben):<br><small style="color:var(--text-muted); font-weight:normal;">„Kunst, Mathe, Deutsch, Englisch“</small></span>
+          <div class="grammar-english"><span class="solution-text">Art, Maths, German, English</span></div>
+        </div>
+        <div class="grammar-item">
+          <span class="grammar-german">ihre Ehefrauen (Plural von wife):</span>
+          <div class="grammar-english"><span class="solution-text">their wives</span></div>
+        </div>
+        <div class="grammar-item">
+          <span class="grammar-german">Mehrzahl: Wellensittiche – Pferde – Bären</span>
+          <div class="grammar-english"><span class="solution-text">budgies – horses – bears</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seitenumbruch für den Druck, damit Sätze sauber auf Seite 2 beginnen -->
+    <div class="page-break-hint">--- Seite 2 (beim Drucken automatisch) ---</div>
+
+    <!-- TEIL 3: REDEWENDUNGEN & GANZE SÄTZE -->
+    <section class="page-break-before">
+      <h2 class="section-title">
+        <span>Teil 3: Redewendungen &amp; Ganze Sätze</span>
+        <span class="section-desc">Übersetze die vollständigen Sätze ins Englische.</span>
+      </h2>
+
+      <div class="sentence-list">
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">1.</span>
+            <span class="sentence-german">Welche Farbe hat ...? / Welche Farbe haben ...?</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">What colour is ...? / What colour are ...?</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">2.</span>
+            <span class="sentence-german">Wie alt ist er/sie? / Wie alt sind sie?</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">How old is he/she? / How old are they?</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">3.</span>
+            <span class="sentence-german">genau / so wie ich</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">like me / just like me</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">4.</span>
+            <span class="sentence-german">... sind nicht die gleichen.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">... aren't the same.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">5.</span>
+            <span class="sentence-german">Du kannst Antonius zu mir sagen.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">You can call me Antonius.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">6.</span>
+            <span class="sentence-german">Wessen Nachtisch ist das?</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">Whose pudding is that?</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">7.</span>
+            <span class="sentence-german">Starre ihn nicht an!</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">Don't stare at him!</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">8.</span>
+            <span class="sentence-german">Räum dein Zimmer auf!</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">Tidy your room!</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">9.</span>
+            <span class="sentence-german">Du kannst es mit deinen Fingern bezahlen.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">You can pay for it with your fingers.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">10.</span>
+            <span class="sentence-german">Vielleicht ist es in ihrem Rucksack / ihrer Tasche.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">Maybe it is in her bag (backpack).</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">11.</span>
+            <span class="sentence-german">In der Mittagspause sind die Schüler in der Cafeteria.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">In the lunch break the students are in the cafeteria.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">12.</span>
+            <span class="sentence-german">etwas über mich erzählen</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">to tell something about me</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">13.</span>
+            <span class="sentence-german">Wart's ab! / Du wirst schon sehen ...</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">Wait and see ...</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">14.</span>
+            <span class="sentence-german">Da ist viel Essen auf dem Tisch.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">There is lots of food on the table.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">15.</span>
+            <span class="sentence-german">Du kannst / darfst den Computer nur mit einem Lehrer benutzen.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">You can only use the computer with a teacher.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">16.</span>
+            <span class="sentence-german">Wir frühstücken um 7 Uhr.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">We have breakfast at 7 o'clock (7 am).</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">17.</span>
+            <span class="sentence-german">So machst du das / So macht man XYZ:</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">This is how you do XYZ.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">18.</span>
+            <span class="sentence-german">Ich gehe manchmal spät ins Bett.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">I sometimes go to bed late.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">19.</span>
+            <span class="sentence-german">Jeden Freitag komme ich um halb zwei nach Hause.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">Every Friday I come home at half past one.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">20.</span>
+            <span class="sentence-german">Ich spiele jeden Tag Fußball.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">I play football every day.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">21.</span>
+            <span class="sentence-german">Ich muss bis 6 Uhr arbeiten.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">I must work till 6 o'clock.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">22.</span>
+            <span class="sentence-german">Danach können wir Fußball spielen.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">After that we can play football.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">23.</span>
+            <span class="sentence-german">Ich muss danach suchen / schauen.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">I must look for it.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">24.</span>
+            <span class="sentence-german">Montags haben wir Nachmittagsunterricht.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">Mondays we have got lessons in the afternoon.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">25.</span>
+            <span class="sentence-german">der letzte Tag der Woche</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">the last day of the week</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">26.</span>
+            <span class="sentence-german">Wir können darüber reden.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">We can talk about it.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">27.</span>
+            <span class="sentence-german">Er läuft oft im Park herum.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">He often runs around in the park.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">28.</span>
+            <span class="sentence-german">Sie werfen Schuhe nach ihm.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">They throw shoes after him.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">29.</span>
+            <span class="sentence-german">Ich schlafe normalerweise sofort ein.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">I usually fall asleep, right away.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">30.</span>
+            <span class="sentence-german">Man muss wissen, wie man höfliche Fragen stellt.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">You must know how to ask polite questions.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">31.</span>
+            <span class="sentence-german">Anton steht im Weg. Was kann Pauline sagen? – „Entschuldigung!“</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">Anton is in the way. What can Pauline say? – "Excuse me!"</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">32.</span>
+            <span class="sentence-german">Vielen Dank! – Gerne geschehen!</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">Thank you! – You are welcome!</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">33.</span>
+            <span class="sentence-german">Kannst du mir den Weg zum Bahnhof sagen?</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">Can you tell me the way to the train station?</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">34.</span>
+            <span class="sentence-german">Auf einer Rolltreppe kannst du stehen, sitzen oder gehen.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">On an escalator you can stand, sit or walk!</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">35.</span>
+            <span class="sentence-german">Lass uns mit dem Zug fahren!</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">Let's go by train!</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">36.</span>
+            <span class="sentence-german">England hat viele schöne Schlösser / Burgen (oder Strände).</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">England has got lots of castles (beaches).</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">37.</span>
+            <span class="sentence-german">England und Wales sind zwei verschiedene Länder.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">England and Wales are two separate countries.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">38.</span>
+            <span class="sentence-german">Am Wochenende gehe ich immer ins Kino.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">At the weekend I always go to the cinema.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">39.</span>
+            <span class="sentence-german">Wann beginnt der Film?</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">At what time does the film start? / When does the film start?</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">40.</span>
+            <span class="sentence-german">Wir haben genügend Zeit.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">We have got enough time.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">41.</span>
+            <span class="sentence-german">Ich habe auch keine Zeit.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">I don't have time either.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">42.</span>
+            <span class="sentence-german">Wie kommen wir dorthin?</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">How do we get there?</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">43.</span>
+            <span class="sentence-german">Ich muss darüber mit meinen Eltern sprechen.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">I need to talk to my parents about that.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">44.</span>
+            <span class="sentence-german">Ich suche nach ...</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">I'm looking for ...</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">45.</span>
+            <span class="sentence-german">Wie viel kosten die Hosen / Jeans?</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">How much are the trousers / jeans?</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">46.</span>
+            <span class="sentence-german">Sie kosten 40 Pfund.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">They are 40 pounds.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">47.</span>
+            <span class="sentence-german">Wie viel kostet ein Stück Kuchen?</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">How much is a piece of cake?</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">48.</span>
+            <span class="sentence-german">Es kostet 3 Euro.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">It is 3 euros.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">49.</span>
+            <span class="sentence-german">Kannst du bei mir bleiben?</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">Can you stay with me?</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">50.</span>
+            <span class="sentence-german">Er kann nicht zum Rettungsring gelangen.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">He can't get to the lifebuoy.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">51.</span>
+            <span class="sentence-german">Du hast unrecht. Das tut mir wirklich leid.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">You are wrong. I'm really sorry.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">52.</span>
+            <span class="sentence-german">Wir können etwas Geld verdienen.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">We can earn some money.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">53.</span>
+            <span class="sentence-german">Wirf bitte keine alte Kleidung weg!</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">Please don't throw away old clothes.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">54.</span>
+            <span class="sentence-german">Diese Jeans zum Beispiel ist nicht schlecht.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">These jeans for example aren't bad.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">55.</span>
+            <span class="sentence-german">Wir können sie zum Second-Hand-Laden bringen.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">We can take them to the second-hand shop.</span></div>
+        </div>
+
+        <div class="sentence-card">
+          <div class="sentence-header">
+            <span class="sentence-num">56.</span>
+            <span class="sentence-german">Mein Ziel ist es, alles zu verkaufen.</span>
+          </div>
+          <div class="sentence-english-line"><span class="solution-text">My goal is to sell everything.</span></div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    function toggleSolutions() {
+      const body = document.body;
+      const btn = document.getElementById('toggleBtn');
+      body.classList.toggle('show-solutions');
+      if (body.classList.contains('show-solutions')) {
+        btn.innerHTML = '<span>🙈</span> Lösungen ausblenden';
+        btn.style.background = '#dcfce7';
+        btn.style.borderColor = '#86efac';
+        btn.style.color = '#15803d';
+      } else {
+        btn.innerHTML = '<span>👁️</span> Lösungen einblenden';
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+      }
+    }
+  </script>
+</body>
+</html>

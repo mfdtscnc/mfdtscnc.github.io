@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Meine Lernseiten</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap">
+<style>
+  :root {
+    --papier: #fbf8f1; --karte: #fffdf8; --tinte: #1f1d1a; --tinte-2: #5b564d; --linie: #d9d2c2;
+    --deutsch: #1d5b8f; --mathematik: #1f7a3d; --englisch: #a3372c; --sonst: #6b5f86; --neu: #c9a100;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --papier: #1a1917; --karte: #221f1c; --tinte: #ece6da; --tinte-2: #a9a194; --linie: #3b3833;
+      --deutsch: #7fb3e0; --mathematik: #7fd394; --englisch: #f08a7e; --sonst: #b5a8d6; --neu: #d8b42a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--papier); color: var(--tinte); font-family: "Atkinson Hyperlegible", system-ui, sans-serif; line-height: 1.5; }
+  main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 16px 4rem; }
+  .eyebrow { font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--tinte-2); margin: 0; }
+  h1 { font-family: "Literata", Georgia, serif; font-weight: 600; font-size: 2.2rem; line-height: 1.15; margin: .2rem 0 .5rem; text-wrap: balance; }
+  .intro { color: var(--tinte-2); margin: 0 0 1rem; max-width: 36rem; }
+  h2 { font-family: "Literata", Georgia, serif; font-size: 1.5rem; margin: 2.5rem 0 .8rem; padding-top: 1rem; border-top: 2px solid var(--tinte); }
+  .fach { --farbe: var(--sonst); margin: 1.2rem 0; }
+  .fach[data-fach="deutsch"] { --farbe: var(--deutsch); }
+  .fach[data-fach="mathematik"] { --farbe: var(--mathematik); }
+  .fach[data-fach="englisch"] { --farbe: var(--englisch); }
+  h3 { font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; color: var(--farbe); margin: 0 0 .5rem; display: flex; align-items: center; gap: .5rem; }
+  h3::before { content: ""; width: .7rem; height: .7rem; border-radius: 50%; background: var(--farbe); }
+  ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+  li a { display: grid; gap: .15rem; padding: .85rem 1rem; text-decoration: none; color: var(--tinte);
+         background: var(--karte); border: 1px solid var(--linie); border-left: 4px solid var(--farbe); border-radius: 4px 8px 8px 4px; }
+  li a:hover, li a:focus-visible { border-color: var(--farbe); outline: none; }
+  li a:focus-visible { box-shadow: 0 0 0 3px color-mix(in srgb, var(--farbe) 35%, transparent); }
+  .thema { font-size: .8rem; color: var(--tinte-2); }
+  .titel { font-family: "Literata", Georgia, serif; font-weight: 600; font-size: 1.15rem; }
+  .beschr { font-size: .92rem; color: var(--tinte-2); }
+  .neu { font-family: "Atkinson Hyperlegible", system-ui, sans-serif; font-size: .7rem; font-weight: 700; text-transform: uppercase;
+          letter-spacing: .06em; margin-left: .5rem; padding: .05rem .45rem; border-radius: 99px; border: 1.5px solid var(--neu); color: var(--neu); vertical-align: middle; }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Lernseiten</p>
+  <h1>Meine Lernseiten</h1>
+  <p class="intro">Alles zum Üben an einem Ort. Speichere diese Seite als Lesezeichen, neue Übungen erscheinen automatisch hier.</p>
+<section><h2>6. Klasse</h2>
+<div class="fach" data-fach="deutsch"><h3>Deutsch</h3><ul>
+<li><a href="../d6-7dfy8s18/"><span class="thema">Grammatik &amp; Sprache</span><span class="titel">Grammatik-Training<span class="neu">neu</span></span><span class="beschr">Kurze Lektionen mit Sofort-Rückmeldung. Start: Nebensatz finden und Kommas setzen.</span></a></li>
+</ul></div>
+<div class="fach" data-fach="mathematik"><h3>Mathematik</h3><ul>
+<li><a href="../m6-4lop9qft/"><span class="thema">Brüche</span><span class="titel">Bruch-Labor: Erweitern &amp; Kürzen<span class="neu">neu</span></span><span class="beschr">Schokoladentafel zum Ausprobieren: Die Stückzahl ändert sich, die Menge bleibt gleich.</span></a></li>
+</ul></div>
+</section>
+<section><h2>5. Klasse</h2>
+<div class="fach" data-fach="englisch"><h3>Englisch</h3><ul>
+<li><a href="../e5-xdnsvdj9/"><span class="thema">Greenline 1 · Pick-up A &amp; Unit 1</span><span class="titel">Großes Übungsblatt</span><span class="beschr">Vokabeln, Grammatik und ganze Sätze. Mit Lösungen zum Einblenden für die Selbstkontrolle.</span></a></li>
+</ul></div>
+</section>
+</main>
+</body>
+</html>

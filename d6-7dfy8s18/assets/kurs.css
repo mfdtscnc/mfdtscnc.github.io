@@ -72,6 +72,21 @@ code { font-family: var(--sans); background: var(--papier-2); padding: 0 .3em; b
 .ew { font-weight: 700; border-bottom: 2px dotted currentColor; }
 .komma-rot { color: var(--verb); font-weight: 700; font-size: 1.15em; }
 .beispiel { font-size: 1.1rem; margin: .5rem 0 .5rem 1rem; }
+/* Satzglieder als Kästchen: .sg = Satzglied, .sg.pr = Prädikat(-teil), .sg.su = Subjekt */
+.sg { border: 1.5px solid var(--tinte-2); border-radius: 5px; padding: 0 .25em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.sg.pr { border-color: var(--verb); color: var(--verb); font-weight: 600; }
+.sg.su { background: var(--nebensatz); border-color: var(--nebensatz-rand); }
+.sg-name { font-family: var(--sans); font-size: .7rem; color: var(--tinte-2); vertical-align: super; margin-left: .1em; }
+
+/* Balkendiagramm (einfach, eine Reihe, alle Werte beschriftet) */
+.balken-grafik { font-family: var(--sans); border: 1px solid var(--linie); border-radius: 10px; padding: 1rem 1.1rem; background: var(--papier); margin: 1rem 0; }
+.balken-grafik .titel { font-weight: 700; font-size: 1.05rem; margin: 0; }
+.balken-grafik .unter { font-size: .85rem; color: var(--tinte-2); margin: .1rem 0 .9rem; }
+.balken-grafik .reihe { display: grid; grid-template-columns: 6.5rem 1fr 2.8rem; gap: .6rem; align-items: center; margin: .45rem 0; font-size: .92rem; }
+.balken-grafik .spur { height: 1.1rem; }
+.balken-grafik .wert { height: 100%; background: var(--akzent); border-radius: 0 4px 4px 0; }
+.balken-grafik .zahl { font-variant-numeric: tabular-nums; text-align: right; }
+.balken-grafik .basis { font-size: .78rem; color: var(--tinte-2); margin: .9rem 0 0; border-top: 1px solid var(--linie); padding-top: .5rem; }
 
 /* Randnotizen / Quellen */
 .quelle { font-family: var(--sans); font-size: .8rem; color: var(--tinte-2); }
@@ -132,6 +147,21 @@ button { font: inherit; color: inherit; }
 .luecke.treffer { color: var(--richtig); }
 .luecke.zuviel { color: var(--falsch); background: var(--falsch-bg); }
 .luecke.fehlt { color: var(--falsch); opacity: .8; outline: 2px dashed var(--falsch); }
+
+/* Selbst eintragen */
+.eingabe-zeile { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.eingabe-zeile input {
+  flex: 1 1 12rem; min-width: 0; min-height: 44px; padding: .45rem .7rem; font-family: var(--serif); font-size: 1.1rem;
+  color: var(--tinte); background: var(--papier-2); border: 1.5px solid var(--linie); border-radius: 8px;
+}
+.eingabe-zeile input:focus { outline: none; border-color: var(--akzent); }
+.aufgabe.geloest .eingabe-zeile input { border-color: var(--richtig); background: var(--richtig-bg); }
+.zeige-loesung {
+  font-family: var(--sans); font-size: .9rem; min-height: 44px; padding: .4rem .8rem; border-radius: 8px;
+  border: 1.5px solid var(--linie); background: none; cursor: pointer; color: var(--tinte-2);
+}
+.lueckentext { font-family: var(--serif); font-size: 1.15rem; margin: 0 0 .6rem; }
+.lueckentext .platz { display: inline-block; min-width: 4.5em; border-bottom: 1.5px solid var(--tinte-2); }
 
 .pruefen {
   font-family: var(--sans); font-weight: 700; padding: .5rem 1.1rem; min-height: 44px; border-radius: 8px;

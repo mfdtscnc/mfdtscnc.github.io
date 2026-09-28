@@ -28,6 +28,15 @@
  *     <p class="satz">Ich weiß| dass du recht hast.</p>
  *   </div>
  *
+ * 4) Selbst eintragen: data-loesung enthält die erlaubten Antworten, getrennt durch |.
+ *    Groß-/Kleinschreibung zählt, Pünktchen (… oder ...) und Leerzeichen nicht.
+ *   <div class="aufgabe eingabe" data-id="T1" data-loesung="hat … angemeldet">
+ *     <p class="frage">Perfekt</p>
+ *     <p class="satz">Waterman (anmelden) den Füller.</p>
+ *     <p class="erklaerung">…</p>
+ *   </div>
+ *   Nach zwei falschen Versuchen erscheint „Lösung zeigen“.
+ *
  * Fortschritt: <div id="fortschritt"></div> irgendwo auf der Seite zeigt den Stand
  * und bietet „Ergebnis kopieren“ an (zum Einfügen in den Chat mit Claude).
  */
@@ -264,6 +273,67 @@
     });
   }
 
+  /* ---------- 4) Selbst eintragen ---------- */
+  function normalisiere(s) {
+    return s.replace(/…|\.\.\./g, " ").replace(/[.!]+\s*$/, "").replace(/\s+/g, " ").trim();
+  }
+
+  function initEingabe(aufgabe) {
+    const loesungen = aufgabe.dataset.loesung.split("|").map(normalisiere);
+    const zeile = el("div", "eingabe-zeile");
+    const feld = el("input");
+    feld.type = "text";
+    feld.autocomplete = "off";
+    feld.spellcheck = false;
+    feld.setAttribute("autocapitalize", "off");
+    feld.setAttribute("aria-label", "Deine Antwort");
+    const knopf = el("button", "pruefen", "Prüfen");
+    knopf.type = "button";
+    zeile.append(feld, knopf);
+    const r = rueckmeldung(aufgabe);
+    aufgabe.insertBefore(zeile, r);
+    let fehlversuche = 0;
+
+    function loesen(text) {
+      aufgabe.classList.add("geloest");
+      feld.disabled = true;
+      knopf.disabled = true;
+      r.className = "rueckmeldung ok";
+      r.textContent = text;
+      const zeige = aufgabe.querySelector(".zeige-loesung");
+      if (zeige) zeige.remove();
+    }
+
+    function pruefen() {
+      const antwort = normalisiere(feld.value);
+      if (!antwort || aufgabe.classList.contains("geloest")) return;
+      if (loesungen.includes(antwort)) {
+        loesen("Richtig!");
+        erfasse(aufgabe.dataset.id, true);
+        return;
+      }
+      fehlversuche++;
+      erfasse(aufgabe.dataset.id, false, "geschrieben: „" + feld.value.trim() + "“");
+      const kleinGleich = loesungen.some((l) => l.toLowerCase() === antwort.toLowerCase());
+      r.className = "rueckmeldung nein";
+      r.textContent = kleinGleich
+        ? "Fast! Achte auf die Groß- und Kleinschreibung."
+        : "Nicht ganz. Geh es noch einmal Schritt für Schritt durch und probier es nochmal.";
+      if (fehlversuche >= 2 && !aufgabe.querySelector(".zeige-loesung")) {
+        const zeige = el("button", "zeige-loesung", "Lösung zeigen");
+        zeige.type = "button";
+        zeige.addEventListener("click", () => {
+          feld.value = aufgabe.dataset.loesung.split("|")[0];
+          loesen("Die Lösung steht jetzt im Feld. Schreib sie einmal auf ein Blatt ab, dann bleibt sie hängen.");
+        });
+        zeile.appendChild(zeige);
+      }
+    }
+
+    knopf.addEventListener("click", pruefen);
+    feld.addEventListener("keydown", (e) => { if (e.key === "Enter") pruefen(); });
+  }
+
   /* ---------- Fortschritt & Ergebnis kopieren ---------- */
   function bericht() {
     const ok = Array.from(ergebnisse.values()).filter((e) => e.ok).length;
@@ -323,6 +393,7 @@
       if (a.classList.contains("mc")) initMC(a);
       else if (a.classList.contains("markieren")) initMarkieren(a);
       else if (a.classList.contains("komma")) initKomma(a);
+      else if (a.classList.contains("eingabe")) initEingabe(a);
     });
     aufgabenZahl = aufgaben.length;
     initFortschritt();

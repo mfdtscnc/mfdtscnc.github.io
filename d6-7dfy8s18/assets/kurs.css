@@ -36,6 +36,13 @@
   --falsch-bg: #3d1c19; --info-bg: #1c2733;
 }
 
+/* Farben für Abbildungen (grafik.js) */
+:root { --pflanze: #3f8a4c; --pflanze-hell: #d4ebcf; --bluete: #e9a0b8; --mitte: #f2c94c; --mito: #c0503a; --kern: #8a6bb8; --vakuole: #d6e7f5; --plasma: #f6f1df; --erde: #a07a52; --glas: #9fb8cc; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --pflanze: #7fcf8c; --pflanze-hell: #1f3a23; --bluete: #c06e8b; --mitte: #d8b42a; --mito: #ff8a70; --kern: #b9a0e0; --vakuole: #1f3347; --plasma: #2a2722; --erde: #b8916a; --glas: #6f8aa0; }
+}
+:root[data-theme="dark"] { --pflanze: #7fcf8c; --pflanze-hell: #1f3a23; --bluete: #c06e8b; --mitte: #d8b42a; --mito: #ff8a70; --kern: #b9a0e0; --vakuole: #1f3347; --plasma: #2a2722; --erde: #b8916a; --glas: #6f8aa0; }
+
 * { box-sizing: border-box; }
 html { font-size: 112.5%; -webkit-text-size-adjust: 100%; }
 body {
@@ -168,6 +175,53 @@ button { font: inherit; color: inherit; }
   border: none; background: var(--akzent); color: var(--papier); cursor: pointer;
 }
 .pruefen:disabled { opacity: .45; cursor: default; }
+
+/* Zuordnen */
+.paare { list-style: none; margin: 0 0 .6rem; padding: 0; display: grid; gap: .45rem; }
+.paare li { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; padding: .4rem .5rem; border-radius: 8px; border: 1.5px solid transparent; }
+.paare .begriff { flex: 1 1 11rem; font-family: var(--serif); font-size: 1.05rem; }
+.paare .wahl { display: flex; flex-wrap: wrap; gap: .3rem; }
+.paare .wahl button {
+  padding: .3rem .65rem; min-height: 40px; border: 1.5px solid var(--linie); border-radius: 99px;
+  background: var(--papier-2); cursor: pointer; font-size: .9rem;
+}
+.paare .wahl button[aria-pressed="true"] { background: var(--akzent); border-color: var(--akzent); color: var(--papier); }
+.paare li.ok { border-color: var(--richtig); background: var(--richtig-bg); }
+.paare li.nein { border-color: var(--falsch); background: var(--falsch-bg); }
+
+/* Selbst erklären */
+.aufgabe.selbst textarea {
+  width: 100%; min-height: 5.5rem; padding: .5rem .7rem; margin: 0 0 .6rem; font-family: var(--serif); font-size: 1.05rem;
+  color: var(--tinte); background: var(--papier-2); border: 1.5px solid var(--linie); border-radius: 8px; resize: vertical;
+}
+.aufgabe.selbst textarea:focus { outline: none; border-color: var(--akzent); }
+.kernpunkte { list-style: none; padding: 0; margin: .3rem 0 .7rem; display: grid; gap: .35rem; }
+.kernpunkte label { display: flex; gap: .5rem; align-items: flex-start; cursor: pointer; padding: .35rem .5rem; border-radius: 6px; background: var(--info-bg); }
+.kernpunkte input { width: 1.2rem; height: 1.2rem; margin-top: .15rem; flex: none; }
+.kernpunkte li.fehlt label { background: var(--falsch-bg); }
+.aufgabe.geloest.nicht-ganz { border-color: var(--falsch); }
+
+/* Wortgleichung: <div class="gleichung"><span class="stoff">…</span><span class="op">+</span>…<span class="pfeil" data-oben="Licht" data-unten="Blattgrün"></span>…</div> */
+.gleichung { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .5rem; font-family: var(--sans); margin: 1.2rem 0; }
+.gleichung .stoff { border: 2px solid var(--tinte-2); border-radius: 8px; padding: .4rem .7rem; background: var(--papier); font-weight: 700; text-align: center; }
+.gleichung .stoff.ein { border-color: var(--akzent); }
+.gleichung .stoff.aus { border-color: var(--richtig); }
+.gleichung .stoff.leer { min-width: 7.5rem; color: transparent; border-style: dashed; }
+.gleichung .op { font-weight: 700; font-size: 1.2rem; }
+.gleichung .pfeil { display: inline-grid; justify-items: center; font-size: .78rem; color: var(--tinte-2); min-width: 6rem; }
+.gleichung .pfeil::before { content: attr(data-oben); }
+.gleichung .pfeil::after { content: attr(data-unten); }
+.gleichung .pfeil { background: linear-gradient(var(--tinte), var(--tinte)) center / 100% 2px no-repeat; position: relative; padding: 0 .9rem 0 0; row-gap: 1rem; }
+.gleichung .pfeil > i { position: absolute; right: -2px; top: 50%; translate: 0 -50%; border: 7px solid transparent; border-left: 10px solid var(--tinte); border-right: 0; }
+.gleichung-legende { text-align: center; font-family: var(--sans); font-size: .8rem; color: var(--tinte-2); margin-top: -.6rem; }
+
+/* Abbildungen aus grafik.js */
+figure.grafik { margin: 1.4rem 0; }
+figure.grafik svg { display: block; width: 100%; height: auto; max-width: 34rem; margin: 0 auto; }
+figure.grafik figcaption { font-family: var(--sans); font-size: .82rem; color: var(--tinte-2); text-align: center; margin-top: .4rem; }
+.glocken { display: grid; grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); gap: .6rem; margin: 1rem 0; }
+.glocken figure { margin: 0; text-align: center; font-family: var(--sans); font-size: .82rem; }
+.glocken svg { width: 100%; max-width: 9rem; height: auto; }
 
 /* Fortschritt */
 #fortschritt {

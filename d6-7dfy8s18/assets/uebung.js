@@ -37,6 +37,23 @@
  *   </div>
  *   Nach zwei falschen Versuchen erscheint „Lösung zeigen“.
  *
+ * 5) Zuordnen: Jeder Begriff bekommt eine der Kategorien aus data-kategorien.
+ *   <div class="aufgabe zuordnen" data-id="Z1" data-kategorien="Ausgangsstoff|Produkt">
+ *     <p class="frage">Ordne zu.</p>
+ *     <ul class="paare">
+ *       <li data-kategorie="Ausgangsstoff">Wasser</li>
+ *       <li data-kategorie="Produkt">Sauerstoff</li>
+ *     </ul>
+ *   </div>
+ *   Die Begriffe werden gemischt (außer bei data-fest).
+ *
+ * 6) Selbst erklären: freie Antwort schreiben, dann die Kernpunkte selbst abhaken.
+ *   <div class="aufgabe selbst" data-id="S1" data-mindestens="2">
+ *     <p class="frage">Nenne zwei Fehlerquellen.</p>
+ *     <ul class="kernpunkte"><li>…</li><li>…</li><li>…</li></ul>
+ *   </div>
+ *   Richtig, wenn alle Kernpunkte abgehakt sind (bzw. mindestens data-mindestens).
+ *
  * Fortschritt: <div id="fortschritt"></div> irgendwo auf der Seite zeigt den Stand
  * und bietet „Ergebnis kopieren“ an (zum Einfügen in den Chat mit Claude).
  */
@@ -334,6 +351,135 @@
     feld.addEventListener("keydown", (e) => { if (e.key === "Enter") pruefen(); });
   }
 
+  /* ---------- 5) Zuordnen ---------- */
+  function initZuordnen(aufgabe) {
+    const kategorien = aufgabe.dataset.kategorien.split("|");
+    const liste = aufgabe.querySelector(".paare");
+    const zeilen = Array.from(liste.querySelectorAll("li"));
+    if (!aufgabe.hasAttribute("data-fest")) mischen(zeilen).forEach((z) => liste.appendChild(z));
+    zeilen.forEach((z) => {
+      const begriff = z.textContent.trim();
+      z.textContent = "";
+      z.dataset.begriff = begriff;
+      z.appendChild(el("span", "begriff", begriff));
+      const wahl = el("span", "wahl");
+      wahl.setAttribute("role", "group");
+      wahl.setAttribute("aria-label", begriff);
+      kategorien.forEach((k) => {
+        const b = el("button", "", k);
+        b.type = "button";
+        b.setAttribute("aria-pressed", "false");
+        b.addEventListener("click", () => {
+          if (aufgabe.classList.contains("geloest")) return;
+          z.classList.remove("ok", "nein");
+          r.textContent = "";
+          wahl.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+          z.dataset.gewaehlt = k;
+        });
+        wahl.appendChild(b);
+      });
+      z.appendChild(wahl);
+    });
+
+    const r = rueckmeldung(aufgabe);
+    const knopf = el("button", "pruefen", "Prüfen");
+    knopf.type = "button";
+    aufgabe.insertBefore(knopf, r);
+
+    knopf.addEventListener("click", () => {
+      const offen = zeilen.filter((z) => !z.dataset.gewaehlt);
+      if (offen.length) {
+        r.className = "rueckmeldung nein";
+        r.textContent = "Ordne zuerst alle Begriffe zu (noch " + offen.length + " offen).";
+        return;
+      }
+      const falsch = [];
+      zeilen.forEach((z) => {
+        const ok = z.dataset.gewaehlt === z.dataset.kategorie;
+        z.classList.toggle("ok", ok);
+        z.classList.toggle("nein", !ok);
+        if (!ok) falsch.push(z.dataset.begriff + " → " + z.dataset.gewaehlt);
+      });
+      if (!falsch.length) {
+        aufgabe.classList.add("geloest");
+        knopf.disabled = true;
+        r.className = "rueckmeldung ok";
+        r.textContent = "Alles richtig zugeordnet!";
+        erfasse(aufgabe.dataset.id, true);
+      } else {
+        r.className = "rueckmeldung nein";
+        r.textContent = (falsch.length === 1 ? "1 Begriff ist" : falsch.length + " Begriffe sind") +
+          " falsch zugeordnet (rot). Verbessere und prüfe nochmal.";
+        erfasse(aufgabe.dataset.id, false, falsch.join(", "));
+      }
+    });
+  }
+
+  /* ---------- 6) Selbst erklären ---------- */
+  function initSelbst(aufgabe) {
+    const kern = aufgabe.querySelector(".kernpunkte");
+    const punkte = Array.from(kern.querySelectorAll("li"));
+    const mindestens = Number(aufgabe.dataset.mindestens) || punkte.length;
+    kern.hidden = true;
+
+    const feld = el("textarea");
+    feld.rows = 3;
+    feld.setAttribute("aria-label", "Deine Antwort");
+    feld.placeholder = "Schreib deine Antwort in ganzen Sätzen.";
+    const zeige = el("button", "pruefen", "Fertig – Lösung zeigen");
+    zeige.type = "button";
+    const r = rueckmeldung(aufgabe);
+    aufgabe.insertBefore(feld, kern);
+    aufgabe.insertBefore(zeige, kern);
+
+    const anleitung = el("p", "klein",
+      mindestens < punkte.length
+        ? "Hake ab, was in deiner Antwort vorkommt. Du brauchst mindestens " + mindestens + "."
+        : "Hake ab, was in deiner Antwort vorkommt. Sei ehrlich zu dir!");
+    const kaesten = punkte.map((p) => {
+      const label = el("label");
+      const kasten = el("input");
+      kasten.type = "checkbox";
+      label.appendChild(kasten);
+      label.appendChild(document.createTextNode(" " + p.textContent.trim()));
+      p.textContent = "";
+      p.appendChild(label);
+      return kasten;
+    });
+    const auswerten = el("button", "pruefen", "Auswerten");
+    auswerten.type = "button";
+
+    zeige.addEventListener("click", () => {
+      if (feld.value.trim().length < 8) {
+        r.className = "rueckmeldung nein";
+        r.textContent = "Schreib erst eine eigene Antwort – auch wenn du unsicher bist. Genau das trainiert dein Gedächtnis.";
+        return;
+      }
+      r.textContent = "";
+      feld.readOnly = true;
+      zeige.remove();
+      kern.hidden = false;
+      kern.before(anleitung);
+      kern.after(auswerten);
+    });
+
+    auswerten.addEventListener("click", () => {
+      const fehlt = punkte.filter((p, i) => !kaesten[i].checked).map((p) => p.textContent.trim());
+      const ok = punkte.length - fehlt.length >= mindestens;
+      kaesten.forEach((k) => (k.disabled = true));
+      auswerten.disabled = true;
+      aufgabe.classList.add("geloest");
+      if (!ok) aufgabe.classList.add("nicht-ganz");
+      punkte.forEach((p, i) => { if (!kaesten[i].checked) p.classList.add("fehlt"); });
+      r.className = ok ? "rueckmeldung ok" : "rueckmeldung nein";
+      r.textContent = ok
+        ? "Stark! Deine Antwort hat alles Wichtige."
+        : "Da fehlt noch etwas. Lies die fehlenden Punkte laut vor und schreib die Antwort einmal vollständig ab.";
+      const notiz = "geschrieben: „" + feld.value.trim().replace(/\s+/g, " ").slice(0, 160) + "“";
+      erfasse(aufgabe.dataset.id, ok, ok ? "" : notiz + (fehlt.length ? "; nicht abgehakt: " + fehlt.join(" / ") : ""));
+    });
+  }
+
   /* ---------- Fortschritt & Ergebnis kopieren ---------- */
   function bericht() {
     const ok = Array.from(ergebnisse.values()).filter((e) => e.ok).length;
@@ -394,6 +540,8 @@
       else if (a.classList.contains("markieren")) initMarkieren(a);
       else if (a.classList.contains("komma")) initKomma(a);
       else if (a.classList.contains("eingabe")) initEingabe(a);
+      else if (a.classList.contains("zuordnen")) initZuordnen(a);
+      else if (a.classList.contains("selbst")) initSelbst(a);
     });
     aufgabenZahl = aufgaben.length;
     initFortschritt();

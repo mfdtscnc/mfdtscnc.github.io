@@ -36,6 +36,9 @@
  *     <p class="erklaerung">…</p>
  *   </div>
  *   Nach zwei falschen Versuchen erscheint „Lösung zeigen“.
+ *   Optional data-muster: regulärer Ausdruck (ohne Groß/klein), der auch ganze
+ *   Antwortsätze gelten lässt, z. B. data-muster="^\D*82([,.]0+)?\s*(kg)?\D*$"
+ *   für „Um 82 kg schwerer“.
  *
  * 5) Zuordnen: Jeder Begriff bekommt eine der Kategorien aus data-kategorien.
  *   <div class="aufgabe zuordnen" data-id="Z1" data-kategorien="Ausgangsstoff|Produkt">
@@ -324,7 +327,8 @@
     function pruefen() {
       const antwort = normalisiere(feld.value);
       if (!antwort || aufgabe.classList.contains("geloest")) return;
-      if (loesungen.includes(antwort)) {
+      const muster = aufgabe.dataset.muster && new RegExp(aufgabe.dataset.muster, "i");
+      if (loesungen.includes(antwort) || (muster && muster.test(feld.value.trim()))) {
         loesen("Richtig!");
         erfasse(aufgabe.dataset.id, true);
         return;

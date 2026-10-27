@@ -57,6 +57,14 @@
  *   </div>
  *   Richtig, wenn alle Kernpunkte abgehakt sind (bzw. mindestens data-mindestens).
  *
+ * 7) Energiestufenmodell bauen: Elektronen mit + und − auf die Stufen setzen.
+ *   <div class="aufgabe stufen" data-id="E1" data-loesung="2,8,1" data-stufen="4">
+ *     <p class="frage">Zeichne das Energiestufenmodell von Natrium (Na, Ordnungszahl 11).</p>
+ *   </div>
+ *   data-stufen = wie viele Stufen angeboten werden (Standard 4). Leere Stufen
+ *   oben zählen nicht. data-gesamt (optional) = erwartete Gesamtzahl für Hinweise,
+ *   sonst die Summe aus data-loesung.
+ *
  * Fortschritt: <div id="fortschritt"></div> irgendwo auf der Seite zeigt den Stand
  * und bietet „Ergebnis kopieren“ an (zum Einfügen in den Chat mit Claude).
  */
@@ -484,6 +492,69 @@
     });
   }
 
+  /* ---------- 7) Energiestufenmodell bauen ---------- */
+  function initStufen(aufgabe) {
+    const soll = aufgabe.dataset.loesung.split(",").map(Number);
+    const gesamt = Number(aufgabe.dataset.gesamt) || soll.reduce((a, b) => a + b, 0);
+    const stufen = Number(aufgabe.dataset.stufen) || 4;
+    const ist = new Array(stufen).fill(0);
+    const box = el("div", "stufen-modell");
+    box.appendChild(el("span", "achse", "E"));
+    const zeilen = [];
+    for (let i = stufen - 1; i >= 0; i--) {
+      const z = el("div", "stufe");
+      const minus = el("button", "", "−");
+      const plus = el("button", "", "+");
+      minus.type = plus.type = "button";
+      minus.setAttribute("aria-label", "Ein Elektron weniger auf Stufe n = " + (i + 1));
+      plus.setAttribute("aria-label", "Ein Elektron mehr auf Stufe n = " + (i + 1));
+      const linie = el("span", "linie");
+      const zahl = el("span", "zahl", "0");
+      z.append(el("span", "n", "n = " + (i + 1)), minus, linie, plus, zahl);
+      minus.addEventListener("click", () => setze(i, -1));
+      plus.addEventListener("click", () => setze(i, 1));
+      zeilen[i] = { linie, zahl };
+      box.appendChild(z);
+    }
+    const r = rueckmeldung(aufgabe);
+    const knopf = el("button", "pruefen", "Prüfen");
+    knopf.type = "button";
+    aufgabe.insertBefore(box, r);
+    aufgabe.insertBefore(knopf, r);
+
+    function setze(i, d) {
+      if (aufgabe.classList.contains("geloest")) return;
+      ist[i] = Math.max(0, Math.min(18, ist[i] + d));
+      zeilen[i].zahl.textContent = String(ist[i]);
+      zeilen[i].linie.textContent = "";
+      for (let k = 0; k < ist[i]; k++) zeilen[i].linie.appendChild(el("span", "e", "−"));
+      r.textContent = "";
+    }
+
+    knopf.addEventListener("click", () => {
+      const ohneLeer = (a) => { const b = a.slice(); while (b.length && !b[b.length - 1]) b.pop(); return b; };
+      const a = ohneLeer(ist), b = ohneLeer(soll);
+      const summe = ist.reduce((x, y) => x + y, 0);
+      if (a.join(",") === b.join(",")) {
+        aufgabe.classList.add("geloest");
+        knopf.disabled = true;
+        r.className = "rueckmeldung ok";
+        r.textContent = "Richtig! Elektronenkonfiguration: " + b.map((z, i) => (i + 1) + hoch(z)).join(" ");
+        erfasse(aufgabe.dataset.id, true);
+        return;
+      }
+      r.className = "rueckmeldung nein";
+      if (summe !== gesamt) r.textContent = "Du hast " + summe + " Elektronen gesetzt. Wie viele hat das Atom? Schau auf die Ordnungszahl.";
+      else if (ist.some((z, i) => z > 2 * (i + 1) * (i + 1))) r.textContent = "Die Anzahl stimmt, aber eine Stufe ist zu voll. Höchstens 2 · n² Elektronen pro Stufe!";
+      else r.textContent = "Die Anzahl stimmt, aber die Verteilung nicht. Fülle von unten nach oben und denk an die Sonderregel (Stufe 3 erst mal nur 8).";
+      erfasse(aufgabe.dataset.id, false, "gesetzt: " + ohneLeer(ist).join(","));
+    });
+  }
+
+  function hoch(z) {
+    return String(z).replace(/\d/g, (d) => "⁰¹²³⁴⁵⁶⁷⁸⁹"[d]);
+  }
+
   /* ---------- Fortschritt & Ergebnis kopieren ---------- */
   function bericht() {
     const ok = Array.from(ergebnisse.values()).filter((e) => e.ok).length;
@@ -546,6 +617,7 @@
       else if (a.classList.contains("eingabe")) initEingabe(a);
       else if (a.classList.contains("zuordnen")) initZuordnen(a);
       else if (a.classList.contains("selbst")) initSelbst(a);
+      else if (a.classList.contains("stufen")) initStufen(a);
     });
     aufgabenZahl = aufgaben.length;
     initFortschritt();

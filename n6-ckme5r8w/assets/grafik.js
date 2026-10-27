@@ -11,6 +11,17 @@
  *
  * Glocke (Priestley): <figure data-grafik="glocke" data-inhalt="maus kerze pflanze" data-licht="aus">
  *   Gezeigt wird immer der Anfang des Versuchs (Kerze brennt), nie das Ergebnis.
+ *
+ * Chemie:
+ *   Energiestufenmodell: <figure data-grafik="energiestufen" data-elektronen="2,8,1" data-symbol="Na">
+ *     data-elektronen="0,0,0" zeichnet leere Stufen (zum Selbsteinzeichnen).
+ *     data-valenz hebt die Valenzelektronen farbig hervor.
+ *   Anregung (Grundzustand ↔ angeregter Zustand): <figure data-grafik="anregung">
+ *   Spektrum: <figure data-grafik="spektrum" data-linien="589,589.6"> (Wellenlängen in nm)
+ *     oder data-linien="kontinuierlich" für den Regenbogen.
+ *   Diagramm: <figure data-grafik="diagramm" data-werte="H:13.6,He:24.6" data-art="saeulen|linie"
+ *     data-einheit="eV" data-markiert="He,Ne" data-xtitel="Element">
+ *   Gekürztes PSE: <figure data-grafik="pse" data-perioden="4" data-markiert="Na,Cl">
  */
 (function () {
   "use strict";
@@ -185,7 +196,198 @@
       s("rect", { x: 8, y: 131, width: 104, height: 6, rx: 2, fill: "var(--tinte-2)" }, e);
       return e;
     },
+
+    energiestufen(_, fig) {
+      const zahlen = (fig.dataset.elektronen || "").split(",").map(Number);
+      const symbol = fig.dataset.symbol || "";
+      const valenz = fig.hasAttribute("data-valenz");
+      const abstand = [0, 74, 58, 48, 42]; // Stufen rücken nach oben zusammen
+      const hoehe = 40 + abstand.slice(1, zahlen.length).reduce((a, b) => a + b, 0) + (symbol ? 58 : 36);
+      const titel = zahlen.some((z) => z > 0)
+        ? "Energiestufenmodell" + (symbol ? " von " + symbol : "") + ": " + zahlen.map((z, i) => "n=" + (i + 1) + ": " + z).join(", ")
+        : "Leeres Energiestufenmodell mit " + zahlen.length + " Stufen";
+      const e = svg(320, hoehe, titel);
+      const unten = hoehe - (symbol ? 50 : 28);
+      s("line", { x1: 26, y1: unten + 14, x2: 26, y2: 14, stroke: "var(--tinte)", "stroke-width": 2 }, e);
+      s("path", { d: "M20 20 L26 6 L32 20 Z", fill: "var(--tinte)" }, e);
+      const et = s("text", { x: 38, y: 18, "font-family": "var(--sans)", "font-size": 15, "font-weight": 700, fill: "var(--tinte)" }, e);
+      et.textContent = "E";
+      let y = unten;
+      zahlen.forEach((anzahl, i) => {
+        if (i > 0) y -= abstand[i];
+        s("line", { x1: 54, y1: y, x2: 248, y2: y, stroke: "var(--tinte)", "stroke-width": 2 }, e);
+        const lt = s("text", { x: 256, y: y + 5, "font-family": "var(--sans)", "font-size": 14, fill: "var(--tinte-2)" }, e);
+        lt.textContent = "n = " + (i + 1);
+        const breite = 21;
+        const start = 151 - ((anzahl - 1) * breite) / 2;
+        const aussen = valenz && i === zahlen.length - 1;
+        for (let k = 0; k < anzahl; k++) {
+          const cx = start + k * breite;
+          s("circle", { cx, cy: y - 11, r: 9, fill: aussen ? "var(--elektron-hell)" : "var(--papier)",
+            stroke: aussen ? "var(--elektron)" : "var(--tinte)", "stroke-width": 1.6 }, e);
+          s("line", { x1: cx - 4.5, y1: y - 11, x2: cx + 4.5, y2: y - 11, stroke: aussen ? "var(--elektron)" : "var(--tinte)", "stroke-width": 1.8 }, e);
+        }
+      });
+      if (symbol) {
+        const st = s("text", { x: 151, y: hoehe - 14, "text-anchor": "middle", "font-family": "var(--sans)", "font-size": 17, "font-weight": 700, fill: "var(--tinte)" }, e);
+        st.textContent = symbol;
+      }
+      return e;
+    },
+
+    anregung() {
+      const e = svg(440, 230, "Ein Elektron nimmt Energie auf (z. B. Wärme) und springt in den angeregten Zustand. Beim Zurückfallen in den Grundzustand gibt es die Energie als Licht ab.");
+      s("line", { x1: 26, y1: 214, x2: 26, y2: 16, stroke: "var(--tinte)", "stroke-width": 2 }, e);
+      s("path", { d: "M20 22 L26 8 L32 22 Z", fill: "var(--tinte)" }, e);
+      const et = s("text", { x: 38, y: 20, "font-family": "var(--sans)", "font-size": 15, "font-weight": 700, fill: "var(--tinte)" }, e);
+      et.textContent = "E";
+      [[52, "angeregter Zustand"], [186, "Grundzustand"]].forEach(([y, text]) => {
+        s("line", { x1: 50, y1: y, x2: 290, y2: y, stroke: "var(--tinte-2)", "stroke-width": 1.8, "stroke-dasharray": "7 6" }, e);
+        const t = s("text", { x: 298, y: y + 5, "font-family": "var(--sans)", "font-size": 14, fill: "var(--tinte)" }, e);
+        t.textContent = text;
+      });
+      [[170, 41], [170, 175]].forEach(([cx, cy]) => {
+        s("circle", { cx, cy, r: 9, fill: "var(--papier)", stroke: "var(--tinte)", "stroke-width": 1.6 }, e);
+        s("line", { x1: cx - 4.5, y1: cy, x2: cx + 4.5, y2: cy, stroke: "var(--tinte)", "stroke-width": 1.8 }, e);
+      });
+      s("path", { d: "M156 170 C120 140 120 80 156 50", fill: "none", stroke: "var(--waerme)", "stroke-width": 2.5 }, e);
+      s("path", { d: "M148 56 L158 47 L160 61 Z", fill: "var(--waerme)" }, e);
+      s("path", { d: "M184 48 C220 78 220 138 184 168", fill: "none", stroke: "var(--elektron)", "stroke-width": 2.5 }, e);
+      s("path", { d: "M182 158 L183 172 L194 164 Z", fill: "var(--elektron)" }, e);
+      [["Energie-", 108, 104], ["aufnahme", 108, 121], ["(z. B. Wärme)", 108, 138]].forEach(([t, x, y]) => {
+        const te = s("text", { x, y, "text-anchor": "end", "font-family": "var(--sans)", "font-size": 13, fill: "var(--waerme)" }, e);
+        te.textContent = t;
+      });
+      [["Energie-", 226, 104], ["abgabe", 226, 121], ["als Licht", 226, 138]].forEach(([t, x, y]) => {
+        const te = s("text", { x, y, "font-family": "var(--sans)", "font-size": 13, fill: "var(--elektron)" }, e);
+        te.textContent = t;
+      });
+      return e;
+    },
+
+    spektrum(_, fig) {
+      const art = fig.dataset.linien || "";
+      const kont = art === "kontinuierlich";
+      const linien = kont ? [] : art.split(",").map(Number).filter(Boolean);
+      const e = svg(420, 74, kont ? "Kontinuierliches Spektrum: lückenloser Regenbogen von Violett bis Rot"
+        : "Linienspektrum mit " + linien.length + " Linien bei " + linien.join(", ") + " nm");
+      const x = (nm) => 10 + ((nm - 380) / (750 - 380)) * 400;
+      s("rect", { x: 10, y: 4, width: 400, height: 46, rx: 3, fill: "#111" }, e);
+      if (kont) {
+        const id = "regenbogen-" + Math.random().toString(36).slice(2, 8);
+        const defs = s("defs", {}, e);
+        const g = s("linearGradient", { id, x1: 0, x2: 1, y1: 0, y2: 0 }, defs);
+        for (let nm = 380; nm <= 750; nm += 10) s("stop", { offset: (nm - 380) / 370, "stop-color": farbe(nm) }, g);
+        s("rect", { x: 10, y: 4, width: 400, height: 46, rx: 3, fill: "url(#" + id + ")" }, e);
+      }
+      linien.forEach((nm) => s("rect", { x: x(nm) - 1.5, y: 4, width: 3, height: 46, fill: farbe(nm) }, e));
+      [400, 500, 600, 700].forEach((nm) => {
+        s("line", { x1: x(nm), y1: 50, x2: x(nm), y2: 55, stroke: "var(--tinte-2)", "stroke-width": 1 }, e);
+        const t = s("text", { x: x(nm), y: 68, "text-anchor": "middle", "font-family": "var(--sans)", "font-size": 11, fill: "var(--tinte-2)" }, e);
+        t.textContent = nm + " nm";
+      });
+      return e;
+    },
+
+    pse(_, fig) {
+      const perioden = Number(fig.dataset.perioden) || 4;
+      const markiert = (fig.dataset.markiert || "").split(",").map((t) => t.trim());
+      const e = svg(40 + 8 * 54, 30 + perioden * 48, "Gekürztes Periodensystem, Hauptgruppen I bis VIII, Perioden 1 bis " + perioden);
+      ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"].forEach((g, i) => {
+        const t = s("text", { x: 40 + i * 54 + 26, y: 18, "text-anchor": "middle", "font-family": "var(--sans)", "font-size": 12, "font-weight": 700, fill: "var(--tinte-2)" }, e);
+        t.textContent = g;
+      });
+      PSE.slice(0, perioden).forEach((zeile, p) => {
+        const t = s("text", { x: 16, y: 30 + p * 48 + 29, "text-anchor": "middle", "font-family": "var(--sans)", "font-size": 12, "font-weight": 700, fill: "var(--tinte-2)" }, e);
+        t.textContent = String(p + 1);
+        zeile.forEach((zelle, g) => {
+          if (!zelle) return;
+          const [symbol, oz] = zelle;
+          const x = 40 + g * 54, y = 30 + p * 48;
+          const hervor = markiert.includes(symbol);
+          s("rect", { x: x + 1, y: y + 1, width: 52, height: 44, rx: 4, fill: hervor ? "var(--elektron-hell)" : "var(--papier-2)",
+            stroke: hervor ? "var(--elektron)" : "var(--linie)", "stroke-width": hervor ? 2 : 1 }, e);
+          const n = s("text", { x: x + 6, y: y + 14, "font-family": "var(--sans)", "font-size": 10, fill: "var(--tinte-2)" }, e);
+          n.textContent = String(oz);
+          const st = s("text", { x: x + 27, y: y + 36, "text-anchor": "middle", "font-family": "var(--sans)", "font-size": 17, "font-weight": 700, fill: "var(--tinte)" }, e);
+          st.textContent = symbol;
+        });
+      });
+      return e;
+    },
+
+    diagramm(_, fig) {
+      const paare = (fig.dataset.werte || "").split(",").map((p) => p.split(":")).map(([n, w]) => [n.trim(), Number(w)]);
+      const linie = fig.dataset.art === "linie";
+      const markiert = (fig.dataset.markiert || "").split(",").map((t) => t.trim());
+      const einheit = fig.dataset.einheit || "";
+      const max = Math.max(...paare.map(([, w]) => w));
+      const schritt = max > 40 ? 10 : 5;
+      const oben = Math.ceil(max / schritt) * schritt;
+      const B = 540, H = 270, L = 44, R = 10, T = 16, U = 40;
+      const e = svg(B, H, (linie ? "Liniendiagramm" : "Säulendiagramm") + ": " + paare.map(([n, w]) => n + " " + w + " " + einheit).join(", "));
+      const y = (w) => T + (H - T - U) * (1 - w / oben);
+      for (let w = 0; w <= oben; w += schritt) {
+        s("line", { x1: L, y1: y(w), x2: B - R, y2: y(w), stroke: "var(--linie)", "stroke-width": 1 }, e);
+        const t = s("text", { x: L - 6, y: y(w) + 4, "text-anchor": "end", "font-family": "var(--sans)", "font-size": 11, fill: "var(--tinte-2)" }, e);
+        t.textContent = w;
+      }
+      const yt = s("text", { x: 4, y: T - 4, "font-family": "var(--sans)", "font-size": 11, "font-weight": 700, fill: "var(--tinte-2)" }, e);
+      yt.textContent = einheit;
+      const feld = (B - L - R) / paare.length;
+      const punkte = [];
+      paare.forEach(([name, w], i) => {
+        const cx = L + feld * (i + 0.5);
+        const hervor = markiert.includes(name);
+        if (linie) {
+          punkte.push(cx + "," + y(w));
+        } else {
+          s("rect", { x: cx - feld * 0.32, y: y(w), width: feld * 0.64, height: y(0) - y(w),
+            fill: hervor ? "var(--akzent)" : "var(--tinte-2)", "fill-opacity": hervor ? 0.95 : 0.55 }, e);
+        }
+        const t = s("text", { x: cx, y: H - U + 16, "text-anchor": "middle", "font-family": "var(--sans)", "font-size": 11.5,
+          "font-weight": hervor ? 700 : 400, fill: hervor ? "var(--akzent)" : "var(--tinte)" }, e);
+        t.textContent = name;
+      });
+      if (linie) {
+        s("polyline", { points: punkte.join(" "), fill: "none", stroke: "var(--tinte-2)", "stroke-width": 1.8 }, e);
+        punkte.forEach((p, i) => {
+          const [cx, cy] = p.split(",").map(Number);
+          const hervor = markiert.includes(paare[i][0]);
+          s("circle", { cx, cy, r: 4, fill: hervor ? "var(--akzent)" : "var(--tinte)" }, e);
+        });
+      }
+      if (fig.dataset.xtitel) {
+        const xt = s("text", { x: B - R, y: H - 4, "text-anchor": "end", "font-family": "var(--sans)", "font-size": 11, fill: "var(--tinte-2)" }, e);
+        xt.textContent = fig.dataset.xtitel;
+      }
+      return e;
+    },
   };
+
+  // Gekürztes Periodensystem: [Symbol, Ordnungszahl] je Hauptgruppe I–VIII
+  const PSE = [
+    [["H", 1], null, null, null, null, null, null, ["He", 2]],
+    [["Li", 3], ["Be", 4], ["B", 5], ["C", 6], ["N", 7], ["O", 8], ["F", 9], ["Ne", 10]],
+    [["Na", 11], ["Mg", 12], ["Al", 13], ["Si", 14], ["P", 15], ["S", 16], ["Cl", 17], ["Ar", 18]],
+    [["K", 19], ["Ca", 20], ["Ga", 31], ["Ge", 32], ["As", 33], ["Se", 34], ["Br", 35], ["Kr", 36]],
+    [["Rb", 37], ["Sr", 38], ["In", 49], ["Sn", 50], ["Sb", 51], ["Te", 52], ["I", 53], ["Xe", 54]],
+    [["Cs", 55], ["Ba", 56], ["Tl", 81], ["Pb", 82], ["Bi", 83], ["Po", 84], ["At", 85], ["Rn", 86]],
+  ];
+
+  // Ungefähre Lichtfarbe zu einer Wellenlänge (380–750 nm)
+  function farbe(nm) {
+    let r = 0, g = 0, b = 0;
+    if (nm < 440) { r = (440 - nm) / 60; b = 1; }
+    else if (nm < 490) { g = (nm - 440) / 50; b = 1; }
+    else if (nm < 510) { g = 1; b = (510 - nm) / 20; }
+    else if (nm < 580) { r = (nm - 510) / 70; g = 1; }
+    else if (nm < 645) { r = 1; g = (645 - nm) / 65; }
+    else { r = 1; }
+    const hell = nm < 420 ? 0.3 + (0.7 * (nm - 380)) / 40 : nm > 700 ? 0.3 + (0.7 * (750 - nm)) / 50 : 1;
+    const k = (c) => Math.round(255 * Math.pow(c * hell, 0.8));
+    return "rgb(" + k(r) + "," + k(g) + "," + k(b) + ")";
+  }
 
   function start() {
     document.querySelectorAll("[data-grafik]").forEach((fig) => {

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Test B – Atombau anwenden</title>
+<link rel="stylesheet" href="../assets/kurs.css">
+<script src="../assets/uebung.js" defer></script>
+<script src="../assets/grafik.js" defer></script>
+<style>
+  .ie td:not(:first-child), .ie th:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<main>
+  <p class="kurs"><a href="../index.html">Chemie 9 · Atombau</a> · Test B · mittel bis schwer · ca. 25 Minuten</p>
+  <h1>Test B: Anwenden und begründen</h1>
+  <p class="untertitel">Neue Elemente, neue Tabellen, Diagramme und Urteile. So sehen die Aufgaben für die guten Noten aus.</p>
+
+  <div class="kasten">
+    <span class="titel">So geht's</span>
+    <ul>
+      <li>Ohne Heft und Spickzettel. Das Periodensystem unten darfst du benutzen, wie in der Klausur.</li>
+      <li>Bei „Begründe“ und „Beurteile“ immer in ganzen Sätzen mit „weil“ oder „denn“ antworten.</li>
+    </ul>
+  </div>
+
+  <figure class="grafik" data-grafik="pse" data-perioden="5"><figcaption>Gekürztes Periodensystem (Hauptgruppen I–VIII), Perioden 1–5</figcaption></figure>
+
+  <h2><span class="nr">1</span>Energiestufenmodell</h2>
+
+  <figure class="grafik" data-grafik="energiestufen" data-elektronen="2,8,8,2"><figcaption>Abbildung zu B1</figcaption></figure>
+  <div class="aufgabe eingabe" data-id="B1" data-loesung="Calcium|Ca|calcium" data-muster="(calcium|kalzium|\bca\b)">
+    <p class="frage">Leite aus dem Energiestufenmodell Periode und Hauptgruppe ab. Um welches Element handelt es sich?</p>
+    <p class="erklaerung">4 Stufen → 4. Periode. 2 Valenzelektronen → II. Hauptgruppe. 2 + 8 + 8 + 2 = 20 → Calcium.</p>
+  </div>
+
+  <div class="aufgabe stufen" data-id="B2" data-loesung="2,8,4">
+    <p class="frage">Baue das Energiestufenmodell von Silicium (Si). Die Ordnungszahl findest du im PSE.</p>
+  </div>
+
+  <div class="aufgabe eingabe" data-id="B3" data-loesung="1^2 2^8 3^8|1² 2⁸ 3⁸" data-muster="^\s*1\s*\^?\s*[2²]\s*[,;]?\s*2\s*\^?\s*[8⁸]\s*[,;]?\s*3\s*\^?\s*[8⁸]\s*$">
+    <p class="frage">Gib die Elektronenkonfiguration von Argon (Ar) an. Hochgestellt mit ^.</p>
+    <p class="erklaerung">Ar: 1² 2⁸ 3⁸, die äußere Stufe ist mit 8 Elektronen voll besetzt.</p>
+  </div>
+
+  <div class="aufgabe mc" data-id="B4">
+    <p class="frage">Ein Atom hat die Elektronenkonfiguration 1² 2⁸ 3⁸ 4¹. Welche Aussage stimmt?</p>
+    <div class="optionen">
+      <button data-richtig>Kalium, 4. Periode, I. Hauptgruppe</button>
+      <button>Natrium, 3. Periode, I. Hauptgruppe</button>
+      <button>Argon, 3. Periode, VIII. Hauptgruppe</button>
+    </div>
+  </div>
+
+  <div class="aufgabe mc" data-id="B5">
+    <p class="frage">Brom (Br) steht in der 4. Periode und der VII. Hauptgruppe. Was gilt für ein Brom-Atom?</p>
+    <div class="optionen">
+      <button data-richtig>4 besetzte Stufen, 7 Valenzelektronen</button>
+      <button>7 besetzte Stufen, 4 Valenzelektronen</button>
+      <button>4 besetzte Stufen, 35 Valenzelektronen</button>
+    </div>
+  </div>
+
+  <h2><span class="nr">2</span>Ionisierungsenergie</h2>
+
+  <figure class="grafik" data-grafik="diagramm" data-einheit="eV" data-xtitel="Element"
+    data-werte="H:13.6,He:24.6,Li:5.4,Be:9.3,B:8.3,C:11.3,N:14.5,O:13.6,F:17.4,Ne:21.6,Na:5.1,Mg:7.6,Al:6.0,Si:8.2,P:10.5,S:10.4,Cl:13.0,Ar:15.8,K:4.3,Ca:6.1">
+    <figcaption>Diagramm 1: 1. Ionisierungsenergie, Säulendiagramm, H bis Ca</figcaption>
+  </figure>
+  <figure class="grafik" data-grafik="diagramm" data-art="linie" data-einheit="eV" data-xtitel="nach Protonenzahl"
+    data-werte="H:13.6,He:24.6,Li:5.4,Be:9.3,B:8.3,C:11.3,N:14.5,O:13.6,F:17.4,Ne:21.6,Na:5.1,Mg:7.6,Al:6.0,Si:8.2,P:10.5,S:10.4,Cl:13.0,Ar:15.8">
+    <figcaption>Diagramm 2: dieselbe Größe als Liniendiagramm, H bis Ar</figcaption>
+  </figure>
+
+  <div class="aufgabe selbst" data-id="B6" data-mindestens="4">
+    <p class="frage">Vergleiche die beiden Diagramme. Nenne Gemeinsamkeiten und Unterschiede und bewerte Vor- und Nachteile.</p>
+    <ul class="kernpunkte">
+      <li>Gemeinsam: beide zeigen den sägezahnartigen (Zickzack-)Verlauf.</li>
+      <li>Gemeinsam: Maxima bei den Edelgasen, Minima bei den Alkalimetallen.</li>
+      <li>Unterschied: Säulen gegen Linie; Diagramm 1 zeigt mehr Elemente (bis Ca), Diagramm 2 nur bis Ar.</li>
+      <li>Vorteil Säulen: Jedes Element ist ein eigener Wert, das passt, weil es zwischen zwei Elementen nichts gibt.</li>
+      <li>Vorteil Linie: Auf und Ab (Trend) springt sofort ins Auge.</li>
+      <li>Nachteil Linie: Sie verbindet Punkte, als gäbe es Zwischenwerte zwischen den Elementen.</li>
+    </ul>
+  </div>
+
+  <div class="aufgabe mc" data-id="B7">
+    <p class="frage">Rubidium (Rb) steht in der I. Hauptgruppe, 5. Periode. Wie ist seine erste Ionisierungsenergie im Vergleich zu Natrium?</p>
+    <div class="optionen">
+      <button data-richtig>kleiner, weil sein Valenzelektron weiter vom Kern entfernt ist</button>
+      <button>größer, weil sein Kern deutlich mehr Protonen enthält</button>
+      <button>gleich, weil beide genau ein Valenzelektron besitzen</button>
+    </div>
+    <p class="erklaerung">Mehr Protonen hat Rubidium zwar, aber die zwei zusätzlichen Stufen bringen das Valenzelektron viel weiter nach außen. Die Entfernung gewinnt.</p>
+  </div>
+
+  <p>Ein Element Y aus der 4. Periode:</p>
+  <div class="tabelle-scroll"><table class="ie">
+    <tr><th>Elektron Nr.</th><th>1.</th><th>2.</th><th>3.</th><th>4.</th><th>5.</th></tr>
+    <tr><td>Energie in eV</td><td>6,1</td><td>11,9</td><td>50,9</td><td>67,3</td><td>84,5</td></tr>
+  </table></div>
+  <div class="aufgabe mc" data-id="B8">
+    <p class="frage">Werte die Tabelle aus. Um welches Element handelt es sich?</p>
+    <div class="optionen">
+      <button data-richtig>Calcium, denn der große Sprung liegt nach dem 2. Elektron.</button>
+      <button>Kalium, denn der große Sprung liegt nach dem 1. Elektron.</button>
+      <button>Gallium, denn der große Sprung liegt nach dem 3. Elektron.</button>
+    </div>
+    <p class="erklaerung">11,9 → 50,9 eV ist der Sprung (mehr als das Vierfache). 2 Valenzelektronen, 4. Periode → Calcium.</p>
+  </div>
+
+  <p>Ein Element Z hat diese Ionisierungsenergien:</p>
+  <div class="tabelle-scroll"><table class="ie">
+    <tr><th>Elektron Nr.</th><th>1.</th><th>2.</th><th>3.</th><th>4.</th></tr>
+    <tr><td>Energie in eV</td><td>5,1</td><td>47,3</td><td>71,6</td><td>98,9</td></tr>
+  </table></div>
+  <div class="aufgabe selbst" data-id="B9">
+    <p class="frage">In welcher Hauptgruppe steht Z? Begründe mit der Tabelle.</p>
+    <ul class="kernpunkte">
+      <li>I. Hauptgruppe (1 Valenzelektron).</li>
+      <li>Der große Sprung liegt schon zwischen dem 1. und 2. Elektron.</li>
+      <li>Das 2. Elektron kommt von einer tieferen Stufe, näher am Kern, und wird viel stärker angezogen.</li>
+    </ul>
+  </div>
+
+  <h2><span class="nr">3</span>Flammenfärbung, Modelle, Ionen</h2>
+
+  <div class="aufgabe mc" data-id="B10">
+    <p class="frage">Im Versuch waren alle Salze Chloride (KCl, SrCl₂, LiCl, NaCl, CuCl₂), trotzdem waren alle Flammen verschieden. Was folgt daraus?</p>
+    <div class="optionen">
+      <button data-richtig>Die Farbe stammt vom Metall, nicht vom Chlor.</button>
+      <button>Die Farbe stammt vom Chlor, nicht vom Metall.</button>
+      <button>Die Farbe stammt nur von der Flamme selbst.</button>
+    </div>
+    <p class="erklaerung">Deshalb leuchtet auch Natriumsulfat orange: Entscheidend ist das Natrium.</p>
+  </div>
+
+  <div class="aufgabe selbst" data-id="B11">
+    <p class="frage">Beurteile die Aussage: „Mit dem Daltonschen Atommodell kann man erklären, warum Kupferchlorid die Flamme blaugrün färbt.“</p>
+    <ul class="kernpunkte">
+      <li>Urteil: Die Aussage ist falsch.</li>
+      <li>Bei Dalton sind Atome massive Kugeln ohne Elektronen und ohne inneren Aufbau.</li>
+      <li>Für die Flammenfärbung braucht man Elektronen, die zwischen Energiestufen springen, also das Energiestufenmodell.</li>
+    </ul>
+  </div>
+
+  <div class="aufgabe zuordnen" data-id="B12" data-kategorien="1+|2+|3+|1−|2−">
+    <p class="frage">Experten: Welche Ladung haben die Ionen dieser Atome?</p>
+    <ul class="paare">
+      <li data-kategorie="1+">Kalium</li>
+      <li data-kategorie="2+">Calcium</li>
+      <li data-kategorie="3+">Aluminium</li>
+      <li data-kategorie="1−">Brom</li>
+      <li data-kategorie="2−">Schwefel</li>
+    </ul>
+    <p class="erklaerung">I.–III. Hauptgruppe geben ihre Valenzelektronen ab (positiv). V.–VII. nehmen auf, bis 8 erreicht sind (negativ).</p>
+  </div>
+
+  <div class="aufgabe selbst" data-id="B13">
+    <p class="frage">Experten: Begründe, warum Argon-Atome reaktionsträge sind und keine Ionen bilden.</p>
+    <ul class="kernpunkte">
+      <li>Argon hat 8 Valenzelektronen, die äußerste Stufe ist voll besetzt (1² 2⁸ 3⁸).</li>
+      <li>Das ist die besonders stabile Edelgaskonfiguration.</li>
+      <li>Darum hat Argon auch eine sehr hohe Ionisierungsenergie (Maximum in der Periode).</li>
+    </ul>
+  </div>
+
+  <div id="fortschritt"></div>
+
+  <div class="weiter">
+    <p><strong>Auswertung:</strong> B1–B5, B12, B13 → <a href="0002-energiestufenmodell.html">Lektion 2</a>, B6–B9 → <a href="0003-ionisierungsenergie.html">Lektion 3</a>, B10 → <a href="0001-licht-aus-dem-atom.html">Lektion 1</a>, B11 → <a href="0004-atommodelle.html">Lektion 4</a>.</p>
+    <p><strong>Weiter:</strong> die <a href="0007-probeklausur.html">Probeklausur auf Papier</a> (45 Minuten).</p>
+    <p><strong>Etwas unklar?</strong> Frag nach! Schreib deine Frage auf und schick sie deinen Eltern. Sie können die Frage an Claude weitergeben.</p>
+  </div>
+</main>
+</body>
+</html>

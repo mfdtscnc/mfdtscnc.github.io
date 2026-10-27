@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Ionisierungsenergie</title>
+<link rel="stylesheet" href="../assets/kurs.css">
+<script src="../assets/uebung.js" defer></script>
+<script src="../assets/grafik.js" defer></script>
+<style>
+  .gross { font-family: var(--sans); font-size: 1.4rem; text-align: center; margin: .6rem 0; }
+  td.sprung { color: var(--falsch); font-weight: 700; }
+  .ie td:not(:first-child), .ie th:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<main>
+  <p class="kurs"><a href="../index.html">Chemie 9 · Atombau</a> · Lektion 3 · ca. 20 Minuten</p>
+  <h1>Ionisierungsenergie</h1>
+  <p class="untertitel">Wie fest hält der Kern seine Elektronen? Diagramme lesen und Trends begründen.</p>
+
+  <p class="mission"><strong>Dein Gewinn:</strong> Du kannst ein Diagramm der Ionisierungsenergie auswerten, die zwei Trends im PSE begründen und aus einer Tabelle ablesen, wie viele Valenzelektronen ein Atom hat.</p>
+
+  <h2><span class="nr">1</span>Definition</h2>
+  <div class="kasten merke">
+    <span class="titel">Merksatz (wie im Heft)</span>
+    <p>Die Energie, die erforderlich ist, um ein Elektron vollständig aus der Atomhülle zu entfernen, nennt man <strong>Ionisierungsenergie</strong>. Einheit: Elektronenvolt (eV).</p>
+    <p class="gross">A → A⁺ + e⁻ <span class="klein">z. B. Na → Na⁺ + e⁻</span></p>
+  </div>
+  <p><strong>Warum kostet das Energie?</strong> Der positive Atomkern zieht die negativen Elektronen an. Um ein Elektron zu entfernen, muss man gegen diese Anziehungskraft arbeiten.</p>
+
+  <h2><span class="nr">2</span>Die zwei Trends im PSE</h2>
+  <figure class="grafik" data-grafik="diagramm" data-einheit="eV" data-xtitel="Element"
+    data-markiert="He,Ne,Ar,Li,Na,K"
+    data-werte="H:13.6,He:24.6,Li:5.4,Be:9.3,B:8.3,C:11.3,N:14.5,O:13.6,F:17.4,Ne:21.6,Na:5.1,Mg:7.6,Al:6.0,Si:8.2,P:10.5,S:10.4,Cl:13.0,Ar:15.8,K:4.3,Ca:6.1">
+    <figcaption>1. Ionisierungsenergie der Elemente H bis Ca. Hervorgehoben: Edelgase (Maxima) und Alkalimetalle (Minima). Werte: <a href="https://en.wikipedia.org/wiki/Ionization_energies_of_the_elements_(data_page)">Wikipedia, Datenseite</a></figcaption>
+  </figure>
+  <div class="tabelle-scroll"><table>
+    <tr><th></th><th>Trend</th><th>Begründung</th></tr>
+    <tr><td><strong>In einer Gruppe</strong><br>(von oben nach unten)</td><td>nimmt <strong>ab</strong></td><td>Mit jeder Periode kommt eine neue Energiestufe dazu. Die Valenzelektronen sind <strong>weiter vom Kern entfernt</strong>, die Anziehungskraft wird kleiner.</td></tr>
+    <tr><td><strong>In einer Periode</strong><br>(von links nach rechts)</td><td>nimmt <strong>sägezahnartig zu</strong></td><td>Die <strong>Protonenzahl</strong> (positive Kernladung) steigt. Der Kern zieht die Elektronen auf derselben Stufe stärker an.</td></tr>
+  </table></div>
+  <ul>
+    <li><strong>Maxima bei den Edelgasen</strong> (He, Ne, Ar): Ihre äußerste Stufe ist voll besetzt, das ist besonders stabil.</li>
+    <li><strong>Minima bei den Alkalimetallen</strong> (Li, Na, K): Ihr einziges Valenzelektron sitzt auf einer neuen, weiter außen liegenden Stufe.</li>
+  </ul>
+  <p class="klein">Die kleinen Zacken mitten in einer Periode (z. B. bei B und O) musst du nicht erklären. Das schafft das Energiestufenmodell nicht, dafür braucht man ein genaueres Atommodell (Oberstufe).</p>
+
+  <h2><span class="nr">3</span>Ein Elektron nach dem anderen</h2>
+  <p>Man kann einem Atom auch nacheinander alle Elektronen entreißen. So sieht das bei Magnesium aus (12 Elektronen):</p>
+  <div class="tabelle-scroll"><table class="ie">
+    <tr><th>Elektron Nr.</th><th>1.</th><th>2.</th><th>3.</th><th>4.</th><th>5.</th><th>…</th><th>10.</th><th>11.</th><th>12.</th></tr>
+    <tr><td>Energie in eV</td><td>7,6</td><td>15,0</td><td class="sprung">80,1</td><td>109,3</td><td>141,3</td><td>…</td><td>367,5</td><td class="sprung">1762</td><td>1963</td></tr>
+  </table></div>
+  <ul>
+    <li>Die erste Ionisierungsenergie ist klein, mit jedem weiteren Elektron wird sie größer.</li>
+    <li>Nach dem <strong>2. Elektron</strong> kommt ein großer <strong>Sprung</strong>: Ab jetzt muss man an eine tiefere Stufe, die näher am Kern liegt. → Magnesium hat <strong>2 Valenzelektronen</strong> (II. Hauptgruppe).</li>
+    <li>Der zweite Sprung nach dem 10. Elektron zeigt: Auf Stufe 2 sitzen 8 Elektronen. Die <strong>letzten beiden</strong> (Stufe 1, ganz nah am Kern) brauchen sehr viel Energie.</li>
+  </ul>
+  <div class="kasten">
+    <span class="titel">Genau daraus wurde das Energiestufenmodell entwickelt</span>
+    <p>Die Sprünge zeigen, dass die Elektronen in Gruppen auf verschiedenen Stufen sitzen: Mg = 2 | 8 | 2 = 1² 2⁸ 3².</p>
+  </div>
+  <p class="quelle"><a href="https://en.wikipedia.org/wiki/Ionization_energies_of_the_elements_(data_page)">Ionisierungsenergien, Wikipedia (nach NIST)</a></p>
+
+  <h2><span class="nr">4</span>Üben</h2>
+
+  <div class="aufgabe selbst" data-id="1">
+    <p class="frage">Definiere den Begriff Ionisierungsenergie und gib die allgemeine Gleichung an.</p>
+    <ul class="kernpunkte">
+      <li>Energie, die man braucht, um ein Elektron …</li>
+      <li>… vollständig aus der Atomhülle zu entfernen.</li>
+      <li>A → A⁺ + e⁻</li>
+    </ul>
+  </div>
+
+  <div class="aufgabe mc" data-id="2">
+    <p class="frage">Welche Gleichung beschreibt die Ionisierung eines Natrium-Atoms?</p>
+    <div class="optionen">
+      <button data-richtig>Na → Na⁺ + e⁻</button>
+      <button>Na + e⁻ → Na⁺</button>
+      <button>Na → Na⁻ + e⁺</button>
+    </div>
+    <p class="erklaerung">Das Atom verliert ein negatives Elektron. Übrig bleibt ein positives Ion.</p>
+  </div>
+
+  <div class="aufgabe zuordnen" data-id="3" data-kategorien="Maximum|Minimum">
+    <p class="frage">Im Diagramm oben: Maximum oder Minimum der Ionisierungsenergie?</p>
+    <ul class="paare">
+      <li data-kategorie="Maximum">Helium</li>
+      <li data-kategorie="Minimum">Lithium</li>
+      <li data-kategorie="Maximum">Neon</li>
+      <li data-kategorie="Minimum">Natrium</li>
+      <li data-kategorie="Maximum">Argon</li>
+      <li data-kategorie="Minimum">Kalium</li>
+    </ul>
+  </div>
+
+  <div class="aufgabe mc" data-id="4">
+    <p class="frage">Vervollständige: „Innerhalb einer Gruppe nimmt die Ionisierungsenergie von oben nach unten ab, weil die Anziehungskraft auf die Außenelektronen mit zunehmender … abnimmt.“</p>
+    <div class="optionen">
+      <button data-richtig>Entfernung vom Kern</button>
+      <button>Energie der Flamme</button>
+      <button>Anzahl der Neutronen</button>
+    </div>
+    <p class="erklaerung">Neue Stufe → Valenzelektronen weiter weg vom Kern → schwächer angezogen → leichter abzuspalten.</p>
+  </div>
+
+  <div class="aufgabe mc" data-id="5">
+    <p class="frage">Von Lithium bis Neon steigt die Ionisierungsenergie. Warum?</p>
+    <div class="optionen">
+      <button data-richtig>Die Protonenzahl steigt, der Kern zieht die Elektronen stärker an.</button>
+      <button>Die Elektronen kommen auf immer höhere Stufen und werden schwerer.</button>
+      <button>Die Neutronenzahl steigt, der Kern wird schwerer und zieht stärker.</button>
+    </div>
+    <p class="erklaerung">Alle Elemente von Li bis Ne haben ihre Valenzelektronen auf derselben Stufe (n = 2). Was sich ändert, ist die Kernladung.</p>
+  </div>
+
+  <div class="aufgabe mc" data-id="6">
+    <p class="frage">Warum ist die erste Ionisierungsenergie von Kalium kleiner als die von Natrium?</p>
+    <div class="optionen">
+      <button data-richtig>Das Valenzelektron von Kalium sitzt eine Stufe weiter außen.</button>
+      <button>Der Kern von Kalium hat weniger Protonen als der von Natrium.</button>
+      <button>Kalium hat mehr Valenzelektronen auf der äußersten Stufe.</button>
+    </div>
+  </div>
+
+  <div class="aufgabe eingabe" data-id="7" data-loesung="2|nach dem 2.|nach dem zweiten" data-muster="^\D*(2|zwei)\D*$">
+    <p class="frage">In der Magnesium-Tabelle: Nach dem wievielten Elektron kommt der erste große Sprung?</p>
+    <p class="erklaerung">Nach dem 2. Elektron (von 15,0 auf 80,1 eV). Also hat Magnesium 2 Valenzelektronen.</p>
+  </div>
+
+  <p>Ein unbekanntes Element X aus der 3. Periode hat diese Ionisierungsenergien:</p>
+  <div class="tabelle-scroll"><table class="ie">
+    <tr><th>Elektron Nr.</th><th>1.</th><th>2.</th><th>3.</th><th>4.</th><th>5.</th></tr>
+    <tr><td>Energie in eV</td><td>6,0</td><td>18,8</td><td>28,4</td><td>120,0</td><td>153,8</td></tr>
+  </table></div>
+  <div class="aufgabe mc" data-id="8">
+    <p class="frage">Um welches Element handelt es sich?</p>
+    <div class="optionen">
+      <button data-richtig>Aluminium, III. Hauptgruppe, 3 Valenzelektronen</button>
+      <button>Magnesium, II. Hauptgruppe, 2 Valenzelektronen</button>
+      <button>Phosphor, V. Hauptgruppe, 5 Valenzelektronen</button>
+    </div>
+    <p class="erklaerung">Großer Sprung zwischen dem 3. und 4. Elektron → 3 Valenzelektronen → III. Hauptgruppe. 3. Periode → Aluminium.</p>
+  </div>
+
+  <div class="aufgabe selbst" data-id="9">
+    <p class="frage">Erkläre, warum bei Magnesium die Ionisierungsenergie vom 2. zum 3. Elektron sprunghaft ansteigt.</p>
+    <ul class="kernpunkte">
+      <li>Die ersten beiden Elektronen sind die Valenzelektronen auf Stufe 3.</li>
+      <li>Das 3. Elektron sitzt auf einer tieferen Stufe (n = 2), näher am Kern.</li>
+      <li>Es wird deshalb viel stärker angezogen, man braucht viel mehr Energie.</li>
+    </ul>
+  </div>
+
+  <div id="fortschritt"></div>
+
+  <div class="weiter">
+    <p><strong>Zum Nachlesen:</strong> dein Chemiebuch S. 27 (B3) und S. 33 (M3), dein Arbeitsblatt „Die Ionisierungsenergie“ und der <a href="../reference/atombau-spickzettel.html">Spickzettel „Atombau“</a>. Ausführlicher erklärt es die <a href="https://uol.de/chemiedidaktik/materialien/lerneinheit-zur-einfuehrung-des-differenzierten-atommodells/baustein-8-ionisierungsenergien">Uni Oldenburg, Baustein 8: Die Ionisierungsenergie</a>.</p>
+    <p><strong>Weiter:</strong> <a href="0004-atommodelle.html">Lektion 4: Atommodelle im Vergleich</a> · zurück zu <a href="0002-energiestufenmodell.html">Lektion 2</a></p>
+    <p><strong>Etwas unklar?</strong> Frag nach! Schreib deine Frage auf und schick sie deinen Eltern. Sie können die Frage an Claude weitergeben.</p>
+  </div>
+</main>
+</body>
+</html>

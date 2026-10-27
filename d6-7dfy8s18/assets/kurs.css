@@ -54,7 +54,7 @@ main { max-width: 42rem; margin: 0 auto; padding: 2.5rem 16px 5rem; }
 /* Kopf */
 .kurs { font-family: var(--sans); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--tinte-2); margin: 0; }
 .kurs a { color: inherit; }
-h1 { font-weight: 600; font-size: 2rem; line-height: 1.2; margin: .3rem 0 .6rem; text-wrap: balance; }
+h1 { font-weight: 600; font-size: 2rem; line-height: 1.2; margin: .3rem 0 .6rem; text-wrap: balance; hyphens: auto; overflow-wrap: break-word; }
 .untertitel { font-style: italic; color: var(--tinte-2); font-size: 1.1rem; margin: 0 0 2rem; }
 h2 { font-family: var(--sans); font-size: 1.15rem; margin: 2.8rem 0 .8rem; padding-top: 1rem; border-top: 1px solid var(--linie); }
 h2 .nr { color: var(--akzent); margin-right: .4em; }
@@ -215,9 +215,36 @@ button { font: inherit; color: inherit; }
 .gleichung .pfeil > i { position: absolute; right: -2px; top: 50%; translate: 0 -50%; border: 7px solid transparent; border-left: 10px solid var(--tinte); border-right: 0; }
 .gleichung-legende { text-align: center; font-family: var(--sans); font-size: .8rem; color: var(--tinte-2); margin-top: -.6rem; }
 
+/* Chemie: Farben für Elektronen und Wärme (grafik.js, Energiestufenmodell) */
+:root { --elektron: #1d5b8f; --elektron-hell: #cfe0f0; --waerme: #c0503a; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --elektron: #7fb3e0; --elektron-hell: #1c2f45; --waerme: #ff8a70; }
+}
+:root[data-theme="dark"] { --elektron: #7fb3e0; --elektron-hell: #1c2f45; --waerme: #ff8a70; }
+
+/* Energiestufenmodell bauen (uebung.js, Typ 7) */
+.stufen-modell { position: relative; border-left: 2px solid var(--tinte); margin: 1.6rem 0 .8rem 1rem; padding: 1.4rem 0 .2rem .6rem; display: grid; gap: .55rem; }
+.stufen-modell .achse { position: absolute; top: -.75rem; left: -.38rem; font-weight: 700; line-height: 1; white-space: nowrap; }
+.stufen-modell .achse::before { content: "▲"; font-size: .7rem; margin-right: .3rem; }
+.stufe { display: grid; grid-template-columns: 3.2rem 2.4rem 1fr 2.4rem 1.8rem; align-items: end; gap: .4rem; }
+.stufe .n { font-size: .85rem; color: var(--tinte-2); align-self: center; }
+.stufe button { min-height: 40px; border: 1.5px solid var(--linie); border-radius: 8px; background: var(--papier-2); cursor: pointer; font-weight: 700; }
+.stufe .linie { display: flex; flex-wrap: wrap; gap: 2px; min-height: 1.6rem; border-bottom: 2px solid var(--tinte); padding: 0 .2rem 3px; }
+.stufe .e { display: inline-grid; place-items: center; width: 1.25rem; height: 1.25rem; border: 1.5px solid var(--tinte); border-radius: 50%; font-size: .8rem; line-height: 1; }
+.stufe .zahl { font-variant-numeric: tabular-nums; text-align: right; color: var(--tinte-2); align-self: center; }
+.aufgabe.geloest .stufe .e { border-color: var(--richtig); color: var(--richtig); }
+
+/* Probeklausur zum Ausdrucken: Schreiblinien und Punkte */
+.punkte { float: right; font-family: var(--sans); font-size: .8rem; font-weight: 700; color: var(--tinte-2); border: 1px solid var(--linie); border-radius: 99px; padding: 0 .5rem; margin-left: .5rem; }
+.schreibplatz { height: calc(var(--zeilen, 4) * 1.9rem); margin: .6rem 0; background: repeating-linear-gradient(transparent 0 calc(1.9rem - 1px), var(--linie) calc(1.9rem - 1px) 1.9rem);
+  -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.kasten-platz { height: calc(var(--zeilen, 6) * 1.9rem); margin: .6rem 0; border: 1px dashed var(--linie); border-radius: 6px; }
+
 /* Abbildungen aus grafik.js */
 figure.grafik { margin: 1.4rem 0; }
 figure.grafik svg { display: block; width: 100%; height: auto; max-width: 34rem; margin: 0 auto; }
+figure.grafik[data-grafik="energiestufen"] svg { max-width: 19rem; }
+figure.grafik[data-grafik="anregung"] svg { max-width: 28rem; }
 figure.grafik figcaption { font-family: var(--sans); font-size: .82rem; color: var(--tinte-2); text-align: center; margin-top: .4rem; }
 .glocken { display: grid; grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); gap: .6rem; margin: 1rem 0; }
 .glocken figure { margin: 0; text-align: center; font-family: var(--sans); font-size: .82rem; }
@@ -241,6 +268,12 @@ details.abruf[open] summary { margin-bottom: .4rem; }
 .weiter ul { padding-left: 1.2rem; }
 
 @media print {
+  /* Auch im Dunkelmodus dunkel auf weiß drucken (Abbildungen nutzen diese Farben) */
+  :root, :root:not([data-theme="light"]), :root[data-theme="dark"] {
+    color-scheme: light;
+    --papier: #fff; --papier-2: #f3eee2; --tinte: #000; --tinte-2: #444; --linie: #bbb; --akzent: #1d5b8f;
+    --info-bg: #e8f0f8; --elektron: #1d5b8f; --elektron-hell: #cfe0f0; --waerme: #c0503a;
+  }
   body { background: #fff; color: #000; font-size: 11pt; }
   main { max-width: none; padding: 0; }
   .pruefen, #fortschritt, .nicht-drucken { display: none !important; }

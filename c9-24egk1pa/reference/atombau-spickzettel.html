@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Spickzettel – Atombau</title>
+<link rel="stylesheet" href="../assets/kurs.css">
+<script src="../assets/grafik.js" defer></script>
+<style>
+  .zwei { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 0 1.5rem; align-items: start; }
+  .zwei figure.grafik { margin: .4rem 0; }
+  .gross { font-family: var(--sans); font-size: 1.2rem; }
+  @media print {
+    body { font-size: 9pt; } h2 { margin-top: .8rem; padding-top: .3rem; } table { font-size: 8pt; }
+    figure.grafik svg { max-width: 13rem; } .operatoren { break-before: page; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <p class="kurs"><a href="../index.html">Chemie 9 · Atombau</a> · Spickzettel</p>
+  <h1>Atombau und gekürztes PSE</h1>
+  <p class="untertitel">Alles aus dem Heft auf zwei Seiten, dazu die Aufgabentypen der Klausur.</p>
+
+  <h2>1 · Flammenfärbung und Spektren</h2>
+  <div class="zwei">
+    <div>
+      <p><strong>Erklärung in 4 Schritten:</strong> (1) Elektronen nehmen in der Flamme Energie (Wärme) auf → (2) springen auf eine höhere Energiestufe (<strong>angeregter Zustand</strong>) → (3) fallen in den <strong>Grundzustand</strong> zurück → (4) geben die Energie als <strong>Licht</strong> ab.</p>
+      <p>Andere Atomart = andere Stufenabstände = andere Farbe.</p>
+    </div>
+    <figure class="grafik" data-grafik="anregung"></figure>
+  </div>
+  <p>KCl violett (durchs Cobaltglas) · SrCl₂ dunkelrot · LiCl rot · NaCl orange · CuCl₂ blaugrün. Die Farbe kommt vom Metall.</p>
+  <p><strong>Spektroskop</strong> zerlegt Licht in Farbanteile. <strong>Kontinuierliches Spektrum:</strong> lückenloser Regenbogen (Sonne, Glühlampe). <strong>Linienspektrum:</strong> einzelne scharfe Linien auf dunklem Grund, für jedes Element einzigartig („Fingerabdruck“). 1868: Helium im Sonnenlicht entdeckt.</p>
+
+  <h2>2 · Energiestufenmodell und Elektronenkonfiguration</h2>
+  <div class="zwei">
+    <div>
+      <ul>
+        <li>Elektronen auf Energiestufen n = 1, 2, 3 … (Hauptquantenzahl). Je weiter außen, desto energiereicher.</li>
+        <li>Höchstens <strong>2 · n²</strong>: n = 1 → 2, n = 2 → 8, n = 3 → 18, n = 4 → 32.</li>
+        <li>Von unten auffüllen. <strong>K und Ca:</strong> Stufe 3 erst nur 8, dann Stufe 4.</li>
+        <li><strong>Valenzelektronen</strong> = Elektronen der höchsten Stufe.</li>
+      </ul>
+      <p class="gross">Na: 1² 2⁸ 3¹ · Mg: 1² 2⁸ 3² · Ca: 1² 2⁸ 3⁸ 4²</p>
+      <p class="klein">Große Zahl = Stufe, hochgestellt = Anzahl Elektronen.</p>
+    </div>
+    <figure class="grafik" data-grafik="energiestufen" data-elektronen="2,8,1" data-symbol="Na" data-valenz></figure>
+  </div>
+  <div class="tabelle-scroll"><table>
+    <tr><th>Im PSE</th><th>verrät</th></tr>
+    <tr><td>Ordnungszahl</td><td>Anzahl der Elektronen (= Protonen)</td></tr>
+    <tr><td><strong>Periode</strong> (Zeile)</td><td>Anzahl der besetzten <strong>Stufen</strong></td></tr>
+    <tr><td><strong>Hauptgruppe</strong> (Spalte)</td><td>Anzahl der <strong>Valenzelektronen</strong></td></tr>
+  </table></div>
+  <p><strong>Edelgasregel (Experten):</strong> Atome streben 8 Valenzelektronen an (He: 2) = Edelgaskonfiguration. I.–III. Hauptgruppe geben ab (Na⁺, Mg²⁺, Al³⁺), V.–VII. nehmen auf (N³⁻, S²⁻, F⁻). Kohlenstoff: keine Ionen, sondern Elektronenpaarbindungen.</p>
+
+  <h2>3 · Ionisierungsenergie</h2>
+  <p>Energie, die erforderlich ist, um ein Elektron vollständig aus der Atomhülle zu entfernen: <strong>A → A⁺ + e⁻</strong>. Man arbeitet gegen die Anziehungskraft des positiven Kerns.</p>
+  <ul>
+    <li><strong>Gruppe, von oben nach unten: nimmt ab.</strong> Neue Stufe → Valenzelektronen weiter vom Kern → schwächer angezogen.</li>
+    <li><strong>Periode, von links nach rechts: nimmt sägezahnartig zu.</strong> Mehr Protonen → stärkere Anziehung auf derselben Stufe. Maxima: Edelgase. Minima: Alkalimetalle.</li>
+    <li><strong>Nacheinander abgespaltene Elektronen:</strong> Die Werte steigen, und an einer Stelle gibt es einen großen <strong>Sprung</strong>. Elektronen vor dem Sprung = Valenzelektronen = Hauptgruppe. Mg: Sprung nach dem 2. → II. Hauptgruppe.</li>
+  </ul>
+
+  <h2>4 · Atommodelle</h2>
+  <div class="tabelle-scroll"><table>
+    <tr><th>Modell</th><th>Vorstellung</th><th>erklärt</th><th>erklärt nicht</th></tr>
+    <tr><td>Dalton (1803)</td><td>unteilbare, massive Kugeln</td><td>Reaktionen (Umgruppierung), Massenerhaltung</td><td>Ladungen, Ionen, Streuversuch</td></tr>
+    <tr><td>Kern-Hülle (Rutherford 1911)</td><td>winziger positiver Kern, fast leere Hülle mit Elektronen</td><td>Streuversuch, Ionen, Metall-Leitfähigkeit</td><td>Flammenfärbung, Spektren, Ladungszahl</td></tr>
+    <tr><td>Energiestufen (Bohr 1913)</td><td>Elektronen auf festen Stufen</td><td>Flammenfärbung, Spektren, Ionisierungsenergie, Valenzelektronen, Ladungszahl, PSE</td><td>kleine Zacken der Ionisierungsenergie</td></tr>
+  </table></div>
+
+  <section class="operatoren" id="operatoren">
+  <h2>5 · Welche Aufgaben kommen dran? Operatoren und Antwortmuster</h2>
+  <p>Das Verb am Anfang der Aufgabe (der <strong>Operator</strong>) sagt dir, wie viel du schreiben musst.</p>
+  <div class="tabelle-scroll"><table>
+    <tr><th>Operator</th><th>Was du tust</th><th>Beispiel aus diesem Thema</th></tr>
+    <tr><td><strong>Nenne / Gib an</strong></td><td>Stichworte oder Formel, ohne Erklärung</td><td>Nenne die Flammenfarbe von LiCl. Gib die Elektronenkonfiguration von Cl an.</td></tr>
+    <tr><td><strong>Definiere</strong></td><td>ein Satz, möglichst wie im Heft</td><td>Definiere die Ionisierungsenergie.</td></tr>
+    <tr><td><strong>Zeichne</strong></td><td>sauber, beschriftet (E-Pfeil, n = 1, 2 …)</td><td>Zeichne das Energiestufenmodell von Ca.</td></tr>
+    <tr><td><strong>Beschreibe</strong></td><td>sagen, was man sieht, ohne „weil“</td><td>Beschreibe den Verlauf der Ionisierungsenergie im Diagramm.</td></tr>
+    <tr><td><strong>Erkläre / Begründe</strong></td><td>Ursache nennen: „…, weil …“</td><td>Erkläre die Flammenfärbung. Begründe den Trend in der Gruppe.</td></tr>
+    <tr><td><strong>Leite ab / Ermittle</strong></td><td>aus Angaben auf etwas schließen, Weg zeigen</td><td>Leite aus dem Modell Periode und Hauptgruppe ab. Ermittle Element X aus der Tabelle.</td></tr>
+    <tr><td><strong>Werte aus</strong></td><td>Daten beschreiben und deuten</td><td>Werte die Tabelle der Ionisierungsenergien aus.</td></tr>
+    <tr><td><strong>Vergleiche</strong></td><td>Gemeinsamkeiten und Unterschiede</td><td>Vergleiche Säulen- und Liniendiagramm. Vergleiche die Atommodelle.</td></tr>
+    <tr><td><strong>Beurteile / Bewerte</strong></td><td>Urteil (richtig/falsch, sinnvoll?) + Begründung</td><td>Beurteile: „Für Linienspektren genügt das Kern-Hülle-Modell.“ Bewerte das Vorgehen beim Kometen.</td></tr>
+  </table></div>
+  <div class="kasten merke">
+    <span class="titel">Antwortmuster für „Begründe“ (Trend im PSE)</span>
+    <p><em>Trend</em> (nimmt ab/zu) + <em>weil</em> + <em>Ursache</em> (Abstand zum Kern / Protonenzahl) + <em>Folge</em> (Anziehungskraft kleiner/größer).</p>
+  </div>
+  <div class="kasten merke">
+    <span class="titel">Antwortmuster für „Beurteile“</span>
+    <p>1. Urteil in einem Satz („Die Aussage ist falsch.“) 2. Begründung mit Fachbegriff („…, weil das Kern-Hülle-Modell keine festen Energiestufen kennt.“) 3. Was stattdessen stimmt.</p>
+  </div>
+  </section>
+</main>
+</body>
+</html>

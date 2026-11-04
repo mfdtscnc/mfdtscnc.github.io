@@ -303,7 +303,8 @@
 
   /* ---------- 4) Selbst eintragen ---------- */
   function normalisiere(s) {
-    return s.replace(/…|\.\.\./g, " ").replace(/[.!]+\s*$/, "").replace(/\s+/g, " ").trim();
+    // ’ ‘ ´ ` (Handy- und Mac-Tastaturen) zählen wie ' (Englisch: isn't, don't)
+    return s.replace(/[’‘´`]/g, "'").replace(/…|\.\.\./g, " ").replace(/[.!?]+\s*$/, "").replace(/\s+/g, " ").trim();
   }
 
   function initEingabe(aufgabe) {

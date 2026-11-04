@@ -281,3 +281,18 @@ details.abruf[open] summary { margin-bottom: .4rem; }
   a { color: #000; }
   h2 { break-after: avoid; }
 }
+
+/* Englisch: Farben der Zeitformen (Zeitstrahl in grafik.js, Tabellen, Beispielsätze) */
+:root { --z-present: #1d5b8f; --z-progressive: #1f7a3d; --z-past: #b3261e; --z-future: #8a6a00; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --z-present: #7fb3e0; --z-progressive: #7fd394; --z-past: #ff8a80; --z-future: #e0c050; }
+}
+:root[data-theme="dark"] { --z-present: #7fb3e0; --z-progressive: #7fd394; --z-past: #ff8a80; --z-future: #e0c050; }
+.z-present { color: var(--z-present); }
+.z-progressive { color: var(--z-progressive); }
+.z-past { color: var(--z-past); }
+.z-future { color: var(--z-future); }
+.z-present, .z-progressive, .z-past, .z-future { font-weight: 700; }
+@media print {
+  :root, :root:not([data-theme="light"]), :root[data-theme="dark"] { --z-present: #1d5b8f; --z-progressive: #1f7a3d; --z-past: #b3261e; --z-future: #8a6a00; }
+}

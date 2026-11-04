@@ -22,6 +22,9 @@
  *   Diagramm: <figure data-grafik="diagramm" data-werte="H:13.6,He:24.6" data-art="saeulen|linie"
  *     data-einheit="eV" data-markiert="He,Ne" data-xtitel="Element">
  *   Gekürztes PSE: <figure data-grafik="pse" data-perioden="4" data-markiert="Na,Cl">
+ *
+ * Englisch:
+ *   Zeitstrahl der vier Zeitformen mit Signalwörtern: <figure data-grafik="zeitstrahl">
  */
 (function () {
   "use strict";
@@ -388,6 +391,32 @@
     const k = (c) => Math.round(255 * Math.pow(c * hell, 0.8));
     return "rgb(" + k(r) + "," + k(g) + "," + k(b) + ")";
   }
+
+  // Englisch: die vier Zeitformen auf dem Zeitstrahl (Farben wie .z-present usw. in kurs.css)
+  ZEICHNE.zeitstrahl = function () {
+    const e = svg(560, 200, "Zeitstrahl: simple past in der Vergangenheit, present progressive genau jetzt, going-to future in der Zukunft, simple present immer wieder");
+    const text = (t, x, y, attrs) => {
+      const te = s("text", Object.assign({ x, y, "text-anchor": "middle", "font-family": "var(--sans)", "font-size": 13, fill: "var(--tinte)" }, attrs), e);
+      te.textContent = t;
+    };
+    text("simple present: immer wieder", 280, 24, { "font-weight": 700, fill: "var(--z-present)" });
+    text("always · usually · every day · never", 280, 42, { "font-size": 12, fill: "var(--z-present)" });
+    for (let x = 40; x <= 520; x += 32) s("line", { x1: x, y1: 54, x2: x, y2: 68, stroke: "var(--z-present)", "stroke-width": 2.4, "stroke-linecap": "round" }, e);
+    s("line", { x1: 20, y1: 100, x2: 536, y2: 100, stroke: "var(--tinte)", "stroke-width": 2 }, e);
+    s("path", { d: "M534 93 L550 100 L534 107 Z", fill: "var(--tinte)" }, e);
+    s("line", { x1: 300, y1: 76, x2: 300, y2: 118, stroke: "var(--tinte-2)", "stroke-width": 1.4, "stroke-dasharray": "4 4" }, e);
+    text("jetzt", 324, 88, { "font-size": 12, fill: "var(--tinte-2)" });
+    [[130, "--z-past", "simple past", "yesterday · … ago"],
+     [300, "--z-progressive", "present progressive", "now · Look!"],
+     [470, "--z-future", "going-to future", "tomorrow · next week"]].forEach(([x, f, name, sw]) => {
+      s("circle", { cx: x, cy: 100, r: 8, fill: "var(" + f + ")" }, e);
+      text(name, x, 138, { "font-weight": 700, fill: "var(" + f + ")" });
+      text(sw, x, 156, { "font-size": 12, fill: "var(" + f + ")" });
+    });
+    text("Vergangenheit", 60, 188, { "font-size": 11, fill: "var(--tinte-2)" });
+    text("Zukunft", 510, 188, { "font-size": 11, fill: "var(--tinte-2)" });
+    return e;
+  };
 
   function start() {
     document.querySelectorAll("[data-grafik]").forEach((fig) => {

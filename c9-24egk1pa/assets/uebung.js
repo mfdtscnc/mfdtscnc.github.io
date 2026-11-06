@@ -67,15 +67,27 @@
  *
  * Fortschritt: <div id="fortschritt"></div> irgendwo auf der Seite zeigt den Stand
  * und bietet „Ergebnis kopieren“ an (zum Einfügen in den Chat mit Claude).
+ *
+ * Rückkanal: Ist RUECKKANAL_URL gesetzt, schickt die Seite das Ergebnis an die
+ * Google-Apps-Script-Web-App des Elternteils (tools/rueckkanal/). Automatisch, sobald
+ * alle Aufgaben bearbeitet sind, sonst per Knopf „Ergebnis senden“. Jeder Seitenaufruf
+ * ist eine Sitzung; erneutes Senden überschreibt dieselbe Zeile. Keine Namen, und
+ * Freitexte aus „Selbst erklären“ werden nicht gesendet. Leere URL = nur kopieren.
  */
 (function () {
   "use strict";
 
-  const ergebnisse = new Map(); // id -> { ok: bool, notiz: string }
+  const RUECKKANAL_URL = "https://script.google.com/macros/s/AKfycbx4_N4TF2Xd5dlJfcv2tQGGk_aNxqKWhbXdrWDFbA5wIFj9hau9uhssixgMHruH2MpN/exec";
+
+  const ergebnisse = new Map(); // id -> { ok: bool, notiz: string, senden: string }
   let aufgabenZahl = 0;
 
-  function erfasse(id, ok, notiz) {
-    if (!ergebnisse.has(id)) ergebnisse.set(id, { ok, notiz: notiz || "" });
+  // notizSenden: was in den Rückkanal geht, falls es sich von der Notiz zum Kopieren unterscheidet.
+  function erfasse(id, ok, notiz, notizSenden) {
+    if (!ergebnisse.has(id)) {
+      ergebnisse.set(id, { ok, notiz: notiz || "", senden: notizSenden != null ? notizSenden : notiz || "" });
+      rueckkanalGeaendert();
+    }
     zeigeFortschritt();
   }
 
@@ -489,7 +501,9 @@
         ? "Stark! Deine Antwort hat alles Wichtige."
         : "Da fehlt noch etwas. Lies die fehlenden Punkte laut vor und schreib die Antwort einmal vollständig ab.";
       const notiz = "geschrieben: „" + feld.value.trim().replace(/\s+/g, " ").slice(0, 160) + "“";
-      erfasse(aufgabe.dataset.id, ok, ok ? "" : notiz + (fehlt.length ? "; nicht abgehakt: " + fehlt.join(" / ") : ""));
+      const nichtAbgehakt = fehlt.length ? "nicht abgehakt: " + fehlt.join(" / ") : "";
+      // Der Freitext bleibt auf dem Gerät (nur beim Kopieren dabei), gesendet wird nur, was fehlte.
+      erfasse(aufgabe.dataset.id, ok, ok ? "" : notiz + (nichtAbgehakt ? "; " + nichtAbgehakt : ""), ok ? "" : nichtAbgehakt);
     });
   }
 
@@ -573,10 +587,90 @@
     if (!box) return;
     const ok = Array.from(ergebnisse.values()).filter((e) => e.ok).length;
     box.querySelector(".zahl").textContent = ok + " / " + aufgabenZahl;
+    let fertig = "Alles bearbeitet! Kopiere dein Ergebnis und zeig es deinen Eltern oder füge es im Chat mit Claude ein.";
+    if (RUECKKANAL_URL) {
+      if (sendeStatus === "ok") fertig = "Alles bearbeitet! Dein Ergebnis wurde an deine Eltern geschickt.";
+      else if (sendeStatus === "fehler") fertig = "Alles bearbeitet! Senden hat nicht geklappt. Bitte kopiere dein Ergebnis und schick es deinen Eltern.";
+      else fertig = "Alles bearbeitet! Dein Ergebnis wird an deine Eltern geschickt …";
+    }
     box.querySelector(".stand").textContent =
       ergebnisse.size < aufgabenZahl
         ? "Noch " + (aufgabenZahl - ergebnisse.size) + " Aufgaben offen."
-        : "Alles bearbeitet! Kopiere dein Ergebnis und zeig es deinen Eltern oder füge es im Chat mit Claude ein.";
+        : fertig;
+  }
+
+  /* ---------- Rückkanal: Ergebnis an die Eltern senden ---------- */
+  const sitzung = (window.crypto && crypto.randomUUID)
+    ? crypto.randomUUID()
+    : Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+  let sendeStatus = "";     // "" | "sendet" | "ok" | "fehler"
+  let schonGesendet = false; // nach dem ersten Senden geht jede Änderung erneut raus (Upsert)
+  let sendetGerade = false, nochmal = false, senderTimer = 0;
+  let sendeMeldung = null;
+
+  function rueckkanalGeaendert() {
+    if (!RUECKKANAL_URL) return;
+    if (schonGesendet || ergebnisse.size >= aufgabenZahl) {
+      clearTimeout(senderTimer);
+      senderTimer = setTimeout(senden, 1200); // kurz warten, falls gleich noch etwas kommt
+      setzeSendeStatus("sendet", "Wird gesendet …");
+    }
+  }
+
+  function nutzlast() {
+    const fehler = [], aufgaben = {};
+    let richtig = 0;
+    ergebnisse.forEach((e, id) => {
+      aufgaben[id] = e.ok;
+      if (e.ok) richtig++;
+      else fehler.push({ id, notiz: e.senden.slice(0, 500) });
+    });
+    return {
+      version: 1,
+      sitzung,
+      datum: new Date().toISOString(),
+      pfad: location.pathname,
+      titel: document.title.slice(0, 300),
+      richtig,
+      gesamt: aufgabenZahl,
+      bearbeitet: ergebnisse.size,
+      fehler,
+      aufgaben,
+    };
+  }
+
+  function setzeSendeStatus(s, text) {
+    sendeStatus = s;
+    if (sendeMeldung) sendeMeldung.textContent = text;
+    zeigeFortschritt();
+  }
+
+  async function senden() {
+    clearTimeout(senderTimer);
+    if (!RUECKKANAL_URL) return;
+    if (sendetGerade) { nochmal = true; return; }
+    sendetGerade = true;
+    schonGesendet = true;
+    setzeSendeStatus("sendet", "Wird gesendet …");
+    const abbruch = new AbortController();
+    const uhr = setTimeout(() => abbruch.abort(), 20000);
+    try {
+      const antwort = await fetch(RUECKKANAL_URL, {
+        method: "POST",
+        body: JSON.stringify(nutzlast()),
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        signal: abbruch.signal,
+      });
+      const daten = await antwort.json();
+      if (!daten || !daten.ok) throw new Error("abgelehnt");
+      setzeSendeStatus("ok", "Gesendet ✓");
+    } catch (_) {
+      setzeSendeStatus("fehler", "Senden hat nicht geklappt, bitte Ergebnis kopieren.");
+    } finally {
+      clearTimeout(uhr);
+      sendetGerade = false;
+      if (nochmal) { nochmal = false; senden(); }
+    }
   }
 
   function initFortschritt() {
@@ -602,6 +696,17 @@
         meldung.textContent = "Bitte den Text unten markieren und kopieren.";
       }
     });
+    if (RUECKKANAL_URL) {
+      const senden_ = el("button", "pruefen", "Ergebnis senden");
+      senden_.type = "button";
+      senden_.addEventListener("click", senden);
+      box.appendChild(senden_);
+      sendeMeldung = el("span", "klein", "");
+      sendeMeldung.setAttribute("aria-live", "polite");
+      sendeMeldung.style.marginLeft = ".6rem";
+      box.appendChild(sendeMeldung);
+      box.appendChild(el("br"));
+    }
     box.appendChild(knopf);
     box.appendChild(meldung);
     zeigeFortschritt();

@@ -258,6 +258,18 @@ figure.grafik figcaption { font-family: var(--sans); font-size: .82rem; color: v
 #fortschritt .zahl { font-size: 1.6rem; font-weight: 700; }
 #fortschritt button { margin-top: .6rem; }
 
+/* Zwischenstand geladen (uebung.js) */
+.zwischenstand {
+  font-family: var(--sans); font-size: .95rem; background: var(--info-bg); border: 1px solid var(--linie);
+  border-radius: 8px; padding: .6rem 1rem; margin: 1rem 0; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem;
+}
+.von-vorn {
+  font: inherit; font-size: .9rem; color: var(--tinte-2); background: transparent; border: 1px solid var(--linie);
+  border-radius: 6px; padding: .3rem .7rem; cursor: pointer; min-height: 36px;
+}
+.von-vorn:hover { color: var(--tinte); border-color: var(--tinte-2); }
+@media print { .zwischenstand, .von-vorn { display: none !important; } }
+
 /* Abruf-Karten (aufklappen) */
 details.abruf { font-family: var(--sans); border: 1px solid var(--linie); border-radius: 8px; padding: .6rem .9rem; margin: .6rem 0; }
 details.abruf summary { cursor: pointer; font-weight: 700; }

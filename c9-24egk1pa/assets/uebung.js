@@ -70,9 +70,23 @@
  *
  * Rückkanal: Ist RUECKKANAL_URL gesetzt, schickt die Seite das Ergebnis an die
  * Google-Apps-Script-Web-App des Elternteils (tools/rueckkanal/). Automatisch, sobald
- * alle Aufgaben bearbeitet sind, sonst per Knopf „Ergebnis senden“. Jeder Seitenaufruf
- * ist eine Sitzung; erneutes Senden überschreibt dieselbe Zeile. Keine Namen, und
+ * alle Aufgaben bearbeitet sind, sonst per Knopf „Ergebnis senden“. Eine Sitzung läuft
+ * vom ersten Öffnen bis „Von vorn anfangen“ (auch über Neuladen hinweg, siehe
+ * Zwischenstand); erneutes Senden überschreibt dieselbe Zeile. Keine Namen, und
  * Freitexte aus „Selbst erklären“ werden nicht gesendet. Leere URL = nur kopieren.
+ *
+ * Zwischenstand: Die Seite merkt sich den Stand im localStorage des Geräts
+ * (Schlüssel "uebung:" + Pfad der Seite), damit nach Schließen oder Neuladen nichts
+ * verloren geht. Gespeichert wird pro Aufgabe das Ergebnis des ersten Versuchs und
+ * der sichtbare Stand (Eingaben und Versuche, gewählte Knöpfe, Markierungen/Kommas,
+ * Elektronen, Text und Haken bei „Selbst erklären“), dazu Sitzung und ob schon
+ * gesendet wurde. Beim Laden wird alles wiederhergestellt, oben erscheint
+ * „Dein Zwischenstand wurde geladen“ mit „Von vorn anfangen“ (löscht den Stand, neue
+ * Sitzung). Den Knopf gibt es auch im Fortschrittskasten. Ein vollständig gesendetes
+ * Ergebnis wird nach dem Neuladen nicht noch einmal gesendet; war es noch nicht
+ * gesendet (z. B. Tab zu früh geschlossen), geht es beim Laden raus. Ändert sich eine
+ * Aufgabe im HTML, wird ihr alter Stand verworfen (Fingerabdruck pro Aufgabe).
+ * Ohne localStorage (privates Fenster, gesperrt) läuft die Seite normal, nur ohne Speichern.
  */
 (function () {
   "use strict";
@@ -89,6 +103,109 @@
       rueckkanalGeaendert();
     }
     zeigeFortschritt();
+    merke();
+  }
+
+  /* ---------- Zwischenstand im localStorage ---------- */
+  const SPEICHER_SCHLUESSEL = "uebung:" + location.pathname;
+  const speicherer = new Map(); // id -> { fp, sichern(): Stand|null, laden(Stand): bool }
+  let laedt = true;             // bis die Wiederherstellung fertig ist, wird nichts gespeichert
+  let fertigGesendet = false;   // vollständiges Ergebnis kam beim Rückkanal an
+
+  function speicherLesen() {
+    try {
+      const s = window.localStorage.getItem(SPEICHER_SCHLUESSEL);
+      return s ? JSON.parse(s) : null;
+    } catch (_) { return null; }
+  }
+  function speicherSchreiben(stand) {
+    try { window.localStorage.setItem(SPEICHER_SCHLUESSEL, JSON.stringify(stand)); } catch (_) { /* ohne Speicher weiter */ }
+  }
+  function speicherLoeschen() {
+    try { window.localStorage.removeItem(SPEICHER_SCHLUESSEL); } catch (_) { /* egal */ }
+  }
+
+  function fingerabdruck(text) {
+    let h = 5381;
+    for (let i = 0; i < text.length; i++) h = ((h << 5) + h + text.charCodeAt(i)) | 0;
+    return (h >>> 0).toString(36);
+  }
+
+  // Jede Aufgabe meldet sich hier an: sichern() liefert ihren sichtbaren Stand
+  // (null = unberührt), laden(stand) spielt ihn wieder ein.
+  function registriere(aufgabe, sichern, laden) {
+    speicherer.set(aufgabe.dataset.id, { fp: aufgabe.dataset.fp || "", sichern, laden });
+  }
+
+  function merke() {
+    if (laedt) return;
+    const aufgaben = {};
+    let etwas = false;
+    speicherer.forEach((s, id) => {
+      let ui = null;
+      try { ui = s.sichern(); } catch (_) { ui = null; }
+      const erg = ergebnisse.get(id) || null;
+      if (ui || erg) { aufgaben[id] = { fp: s.fp, ui, erg }; etwas = true; }
+    });
+    if (!etwas && !schonGesendet) { speicherLoeschen(); return; }
+    speicherSchreiben({ v: 1, sitzung, schonGesendet, fertigGesendet, aufgaben });
+  }
+
+  function wiederherstellen() {
+    const st = speicherLesen();
+    let geladen = false, verworfen = false;
+    if (st && st.v === 1 && st.aufgaben && typeof st.aufgaben === "object") {
+      if (typeof st.sitzung === "string" && st.sitzung) sitzung = st.sitzung;
+      schonGesendet = !!st.schonGesendet;
+      fertigGesendet = !!st.fertigGesendet;
+      Object.keys(st.aufgaben).forEach((id) => {
+        const a = st.aufgaben[id], s = speicherer.get(id);
+        if (!s || !a || a.fp !== s.fp) { verworfen = true; return; }
+        const e = a.erg;
+        if (e && typeof e.ok === "boolean") {
+          ergebnisse.set(id, { ok: e.ok, notiz: String(e.notiz || ""), senden: String(e.senden || "") });
+          geladen = true;
+        }
+        if (a.ui) {
+          try { s.laden(a.ui); geladen = true; } catch (_) { /* Stand passt nicht mehr, Aufgabe bleibt offen */ }
+        }
+      });
+      if (verworfen) fertigGesendet = false; // Seite wurde geändert: neues Ergebnis darf wieder raus
+    }
+    laedt = false;
+    if (geladen) zeigeZwischenstandHinweis();
+    const allesFertig = aufgabenZahl > 0 && ergebnisse.size >= aufgabenZahl;
+    if (RUECKKANAL_URL && allesFertig && fertigGesendet) setzeSendeStatus("ok", "Gesendet ✓");
+    else if (allesFertig) rueckkanalGeaendert(); // fertig, aber noch nicht angekommen: jetzt senden
+    zeigeFortschritt();
+    merke();
+  }
+
+  function vonVorn() {
+    if (!window.confirm("Wirklich alles löschen und die Lektion von vorn anfangen?")) return;
+    clearTimeout(senderTimer);
+    laedt = true;
+    speicherLoeschen();
+    location.reload();
+  }
+
+  function vonVornKnopf() {
+    const b = el("button", "von-vorn", "Von vorn anfangen");
+    b.type = "button";
+    b.addEventListener("click", vonVorn);
+    return b;
+  }
+
+  function zeigeZwischenstandHinweis() {
+    const box = el("div", "zwischenstand");
+    box.setAttribute("role", "status");
+    box.appendChild(el("span", "", "Dein Zwischenstand wurde geladen. Du machst da weiter, wo du aufgehört hast."));
+    box.appendChild(vonVornKnopf());
+    const main = document.querySelector("main") || document.body;
+    const h1 = main.querySelector("h1");
+    const nach = h1 && h1.nextElementSibling && h1.nextElementSibling.classList.contains("untertitel") ? h1.nextElementSibling : h1;
+    if (nach) nach.after(box);
+    else main.prepend(box);
   }
 
   function el(tag, cls, text) {
@@ -130,10 +247,18 @@
     const knoepfe = Array.from(box.querySelectorAll("button"));
     if (!aufgabe.hasAttribute("data-fest")) mischen(knoepfe).forEach((b) => box.appendChild(b));
     const r = rueckmeldung(aufgabe);
+    const gewaehlt = []; // Texte der geklickten Knöpfe, in Reihenfolge
+    registriere(aufgabe,
+      () => (gewaehlt.length ? { gewaehlt: gewaehlt.slice() } : null),
+      (st) => (st.gewaehlt || []).forEach((t) => {
+        const b = knoepfe.find((k) => k.textContent.trim() === t);
+        if (b && !b.disabled) b.click();
+      }));
     knoepfe.forEach((b) => {
       b.type = "button";
       b.addEventListener("click", () => {
         const id = aufgabe.dataset.id;
+        gewaehlt.push(b.textContent.trim());
         if (b.hasAttribute("data-richtig")) {
           b.classList.add("richtig");
           knoepfe.forEach((k) => (k.disabled = true));
@@ -148,6 +273,7 @@
           r.textContent = "Nicht ganz. Lies noch einmal genau und probier es nochmal.";
           erfasse(id, false, "gewählt: „" + b.textContent.trim() + "“");
         }
+        merke();
       });
     });
   }
@@ -199,6 +325,17 @@
       r.textContent = "";
     }
 
+    let geprueft = false; // Stand seit dem letzten Prüfen unverändert
+    registriere(aufgabe,
+      () => {
+        const an = woerter.map((w, i) => (w.classList.contains("an") ? i : -1)).filter((i) => i >= 0);
+        return an.length || geprueft ? { an, geprueft } : null;
+      },
+      (st) => {
+        (st.an || []).forEach((i) => { if (woerter[i]) woerter[i].click(); });
+        if (st.geprueft) knopf.click();
+      });
+
     woerter.forEach((w) => {
       w.setAttribute("aria-pressed", "false");
       w.addEventListener("click", () => {
@@ -206,10 +343,13 @@
         aufraeumen();
         w.classList.toggle("an");
         w.setAttribute("aria-pressed", String(w.classList.contains("an")));
+        geprueft = false;
+        merke();
       });
     });
 
     knopf.addEventListener("click", () => {
+      geprueft = true;
       aufraeumen();
       let fehlt = 0, zuviel = 0;
       woerter.forEach((w) => {
@@ -233,6 +373,7 @@
         r.textContent = teile.join(", ") + ". Verbessere und prüfe nochmal.";
         erfasse(aufgabe.dataset.id, false, "markiert: „" + (markiert || "nichts") + "“");
       }
+      merke();
     });
   }
 
@@ -274,6 +415,17 @@
       r.textContent = "";
     }
 
+    let geprueft = false;
+    registriere(aufgabe,
+      () => {
+        const an = luecken.map((l, i) => (l.classList.contains("an") ? i : -1)).filter((i) => i >= 0);
+        return an.length || geprueft ? { an, geprueft } : null;
+      },
+      (st) => {
+        (st.an || []).forEach((i) => { if (luecken[i]) luecken[i].click(); });
+        if (st.geprueft) knopf.click();
+      });
+
     luecken.forEach((l) => {
       l.addEventListener("click", () => {
         if (aufgabe.classList.contains("geloest")) return;
@@ -281,10 +433,13 @@
         l.classList.toggle("an");
         l.textContent = l.classList.contains("an") ? "," : "";
         l.setAttribute("aria-pressed", String(l.classList.contains("an")));
+        geprueft = false;
+        merke();
       });
     });
 
     knopf.addEventListener("click", () => {
+      geprueft = true;
       aufraeumen();
       const fehlend = [], zuviel = [];
       luecken.forEach((l) => {
@@ -310,6 +465,7 @@
         if (zuviel.length) notiz.push("zu viel nach: " + zuviel.join(", "));
         erfasse(aufgabe.dataset.id, false, notiz.join("; "));
       }
+      merke();
     });
   }
 
@@ -334,6 +490,15 @@
     const r = rueckmeldung(aufgabe);
     aufgabe.insertBefore(zeile, r);
     let fehlversuche = 0;
+    const versuche = []; // geprüfte Antworten, in Reihenfolge
+    let gezeigt = false;  // „Lösung zeigen“ benutzt
+    registriere(aufgabe,
+      () => (versuche.length || gezeigt || feld.value ? { versuche: versuche.slice(), gezeigt, wert: feld.value } : null),
+      (st) => {
+        (st.versuche || []).forEach((v) => { feld.value = String(v); pruefen(); });
+        if (st.gezeigt) { const z = aufgabe.querySelector(".zeige-loesung"); if (z) z.click(); }
+        if (!aufgabe.classList.contains("geloest")) feld.value = String(st.wert || "");
+      });
 
     function loesen(text) {
       aufgabe.classList.add("geloest");
@@ -348,10 +513,12 @@
     function pruefen() {
       const antwort = normalisiere(feld.value);
       if (!antwort || aufgabe.classList.contains("geloest")) return;
+      versuche.push(feld.value);
       const muster = aufgabe.dataset.muster && new RegExp(aufgabe.dataset.muster, "i");
       if (loesungen.includes(antwort) || (muster && muster.test(feld.value.trim()))) {
         loesen("Richtig!");
         erfasse(aufgabe.dataset.id, true);
+        merke();
         return;
       }
       fehlversuche++;
@@ -366,18 +533,23 @@
         zeige.type = "button";
         zeige.addEventListener("click", () => {
           feld.value = aufgabe.dataset.loesung.split("|")[0];
+          gezeigt = true;
           loesen("Die Lösung steht jetzt im Feld. Schreib sie einmal auf ein Blatt ab, dann bleibt sie hängen.");
+          merke();
         });
         zeile.appendChild(zeige);
       }
+      merke();
     }
 
     knopf.addEventListener("click", pruefen);
     feld.addEventListener("keydown", (e) => { if (e.key === "Enter") pruefen(); });
+    feld.addEventListener("input", merke);
   }
 
   /* ---------- 5) Zuordnen ---------- */
   function initZuordnen(aufgabe) {
+    let geprueft = false;
     const kategorien = aufgabe.dataset.kategorien.split("|");
     const liste = aufgabe.querySelector(".paare");
     const zeilen = Array.from(liste.querySelectorAll("li"));
@@ -400,6 +572,8 @@
           r.textContent = "";
           wahl.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
           z.dataset.gewaehlt = k;
+          geprueft = false;
+          merke();
         });
         wahl.appendChild(b);
       });
@@ -410,6 +584,23 @@
     const knopf = el("button", "pruefen", "Prüfen");
     knopf.type = "button";
     aufgabe.insertBefore(knopf, r);
+
+    registriere(aufgabe,
+      () => {
+        const wahl = {};
+        zeilen.forEach((z) => { if (z.dataset.gewaehlt) wahl[z.dataset.begriff] = z.dataset.gewaehlt; });
+        return Object.keys(wahl).length || geprueft ? { wahl, geprueft } : null;
+      },
+      (st) => {
+        const wahl = st.wahl || {};
+        zeilen.forEach((z) => {
+          const k = wahl[z.dataset.begriff];
+          if (!k) return;
+          const b = Array.from(z.querySelectorAll(".wahl button")).find((x) => x.textContent === k);
+          if (b) b.click();
+        });
+        if (st.geprueft) knopf.click();
+      });
 
     knopf.addEventListener("click", () => {
       const offen = zeilen.filter((z) => !z.dataset.gewaehlt);
@@ -425,6 +616,7 @@
         z.classList.toggle("nein", !ok);
         if (!ok) falsch.push(z.dataset.begriff + " → " + z.dataset.gewaehlt);
       });
+      geprueft = true;
       if (!falsch.length) {
         aufgabe.classList.add("geloest");
         knopf.disabled = true;
@@ -437,6 +629,7 @@
           " falsch zugeordnet (rot). Verbessere und prüfe nochmal.";
         erfasse(aufgabe.dataset.id, false, falsch.join(", "));
       }
+      merke();
     });
   }
 
@@ -473,6 +666,22 @@
     });
     const auswerten = el("button", "pruefen", "Auswerten");
     auswerten.type = "button";
+    let gezeigt = false, ausgewertet = false;
+
+    // Der Freitext wird nur auf dem Gerät gespeichert (localStorage), nie gesendet.
+    registriere(aufgabe,
+      () => {
+        const haken = kaesten.map((k) => k.checked);
+        return feld.value || gezeigt ? { text: feld.value, gezeigt, haken, ausgewertet } : null;
+      },
+      (st) => {
+        feld.value = String(st.text || "");
+        if (st.gezeigt) zeige.click();
+        (st.haken || []).forEach((h, i) => { if (kaesten[i]) kaesten[i].checked = !!h; });
+        if (st.gezeigt && st.ausgewertet) auswerten.click();
+      });
+    feld.addEventListener("input", merke);
+    kaesten.forEach((k) => k.addEventListener("change", merke));
 
     zeige.addEventListener("click", () => {
       if (feld.value.trim().length < 8) {
@@ -486,9 +695,12 @@
       kern.hidden = false;
       kern.before(anleitung);
       kern.after(auswerten);
+      gezeigt = true;
+      merke();
     });
 
     auswerten.addEventListener("click", () => {
+      ausgewertet = true;
       const fehlt = punkte.filter((p, i) => !kaesten[i].checked).map((p) => p.textContent.trim());
       const ok = punkte.length - fehlt.length >= mindestens;
       kaesten.forEach((k) => (k.disabled = true));
@@ -504,6 +716,7 @@
       const nichtAbgehakt = fehlt.length ? "nicht abgehakt: " + fehlt.join(" / ") : "";
       // Der Freitext bleibt auf dem Gerät (nur beim Kopieren dabei), gesendet wird nur, was fehlte.
       erfasse(aufgabe.dataset.id, ok, ok ? "" : notiz + (nichtAbgehakt ? "; " + nichtAbgehakt : ""), ok ? "" : nichtAbgehakt);
+      merke();
     });
   }
 
@@ -536,6 +749,14 @@
     knopf.type = "button";
     aufgabe.insertBefore(box, r);
     aufgabe.insertBefore(knopf, r);
+    let geprueft = false;
+
+    registriere(aufgabe,
+      () => (ist.some((z) => z) || geprueft ? { ist: ist.slice(), geprueft } : null),
+      (st) => {
+        (st.ist || []).forEach((z, i) => { if (i < stufen) setze(i, Number(z) || 0); });
+        if (st.geprueft) knopf.click();
+      });
 
     function setze(i, d) {
       if (aufgabe.classList.contains("geloest")) return;
@@ -544,9 +765,12 @@
       zeilen[i].linie.textContent = "";
       for (let k = 0; k < ist[i]; k++) zeilen[i].linie.appendChild(el("span", "e", "−"));
       r.textContent = "";
+      geprueft = false;
+      merke();
     }
 
     knopf.addEventListener("click", () => {
+      geprueft = true;
       const ohneLeer = (a) => { const b = a.slice(); while (b.length && !b[b.length - 1]) b.pop(); return b; };
       const a = ohneLeer(ist), b = ohneLeer(soll);
       const summe = ist.reduce((x, y) => x + y, 0);
@@ -600,7 +824,7 @@
   }
 
   /* ---------- Rückkanal: Ergebnis an die Eltern senden ---------- */
-  const sitzung = (window.crypto && crypto.randomUUID)
+  let sitzung = (window.crypto && crypto.randomUUID)
     ? crypto.randomUUID()
     : Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
   let sendeStatus = "";     // "" | "sendet" | "ok" | "fehler"
@@ -651,18 +875,21 @@
     if (sendetGerade) { nochmal = true; return; }
     sendetGerade = true;
     schonGesendet = true;
+    merke();
     setzeSendeStatus("sendet", "Wird gesendet …");
+    const paket = nutzlast();
     const abbruch = new AbortController();
     const uhr = setTimeout(() => abbruch.abort(), 20000);
     try {
       const antwort = await fetch(RUECKKANAL_URL, {
         method: "POST",
-        body: JSON.stringify(nutzlast()),
+        body: JSON.stringify(paket),
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         signal: abbruch.signal,
       });
       const daten = await antwort.json();
       if (!daten || !daten.ok) throw new Error("abgelehnt");
+      if (paket.bearbeitet >= paket.gesamt) { fertigGesendet = true; merke(); }
       setzeSendeStatus("ok", "Gesendet ✓");
     } catch (_) {
       setzeSendeStatus("fehler", "Senden hat nicht geklappt, bitte Ergebnis kopieren.");
@@ -709,6 +936,8 @@
     }
     box.appendChild(knopf);
     box.appendChild(meldung);
+    box.appendChild(el("br"));
+    box.appendChild(vonVornKnopf());
     zeigeFortschritt();
   }
 
@@ -716,6 +945,7 @@
     const aufgaben = document.querySelectorAll(".aufgabe");
     aufgaben.forEach((a, i) => {
       if (!a.dataset.id) a.dataset.id = String(i + 1);
+      a.dataset.fp = fingerabdruck(a.className + "\n" + a.innerHTML); // vor dem Umbau durch init*
       nummeriere(a);
       if (a.classList.contains("mc")) initMC(a);
       else if (a.classList.contains("markieren")) initMarkieren(a);
@@ -727,6 +957,7 @@
     });
     aufgabenZahl = aufgaben.length;
     initFortschritt();
+    wiederherstellen();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);

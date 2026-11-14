@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Was ist das Ganze? – Bruchteile in Sachaufgaben</title>
+<link rel="stylesheet" href="../assets/kurs.css">
+<script src="../assets/uebung.js" defer></script>
+<style>
+  .streifen { display: block; width: 100%; max-width: 26rem; height: auto; margin: 1rem 0 .4rem; font-family: var(--sans); }
+  .streifen .feld { fill: var(--papier); stroke: var(--tinte); stroke-width: 1.5; }
+  .streifen .teil { fill: var(--nebensatz); stroke: var(--tinte); stroke-width: 1.5; }
+  .streifen text { fill: var(--tinte); font-size: 13px; text-anchor: middle; }
+  .streifen .klammer { fill: none; stroke: var(--akzent); stroke-width: 1.5; }
+  .streifen .klammer-text { fill: var(--akzent); font-weight: 700; }
+  .bruch { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; font-size: .85em; line-height: 1.05; margin: 0 .1em; }
+  .bruch > span:first-child { border-bottom: 1px solid currentColor; padding: 0 .15em; }
+  .schritte { margin: .4rem 0 0 1.2rem; padding: 0; }
+  .schritte li { margin: .25rem 0; }
+</style>
+</head>
+<body>
+<main>
+  <p class="kurs"><a href="../index.html">Mathe 6 · Sachaufgaben mit Brüchen</a> · Lektion 1 · ca. 25 Minuten</p>
+  <h1>Was ist das Ganze?</h1>
+  <p class="untertitel">Ein Bruch ist immer ein Anteil <em>von etwas</em>. Wer das Ganze findet, hat die Aufgabe schon halb gelöst.</p>
+
+  <p class="mission"><strong>Dein Gewinn:</strong> Danach weißt du bei Textaufgaben mit Brüchen, was du durch was teilen musst. Das gilt auch, wenn das Ganze gar nicht im Text steht und du es erst ausrechnen musst.</p>
+
+  <h2><span class="nr">1</span>Drei Wörter: Ganzes, Anteil, Teil</h2>
+  <p>In jeder Bruch-Sachaufgabe stecken drei Dinge:</p>
+  <div class="tabelle-scroll"><table>
+    <tr><th>Wort</th><th>Was es ist</th><th>Beispiel: „<span class="bruch"><span>3</span><span>4</span></span> der 28 Kinder fahren Bus.“</th></tr>
+    <tr><td><strong>Ganzes</strong></td><td>alles zusammen, 100 %</td><td>28 Kinder</td></tr>
+    <tr><td><strong>Anteil</strong></td><td>der Bruch</td><td><span class="bruch"><span>3</span><span>4</span></span></td></tr>
+    <tr><td><strong>Teil</strong></td><td>wie viel das ist</td><td>21 Kinder</td></tr>
+  </table></div>
+  <p>Zeichne das Ganze als <strong>Streifen</strong> und teil ihn in so viele gleiche Stücke, wie der Nenner sagt:</p>
+  <svg class="streifen" viewBox="0 0 320 98" role="img" aria-label="Streifen mit 28 Kindern in 4 Stücken zu je 7, 3 Stücke markiert = 21">
+    <path class="klammer" d="M10 24 v-5 h300 v5"/>
+    <text x="160" y="13" class="klammer-text">Ganzes: 28 Kinder</text>
+    <rect class="teil" x="10" y="28" width="75" height="36"/>
+    <rect class="teil" x="85" y="28" width="75" height="36"/>
+    <rect class="teil" x="160" y="28" width="75" height="36"/>
+    <rect class="feld" x="235" y="28" width="75" height="36"/>
+    <text x="47.5" y="51">7</text><text x="122.5" y="51">7</text><text x="197.5" y="51">7</text><text x="272.5" y="51">7</text>
+    <path class="klammer" d="M10 70 v6 h225 v-6"/>
+    <text x="122.5" y="93" class="klammer-text">Teil: 3 Stücke = 21 Kinder</text>
+  </svg>
+  <div class="kasten">
+    <span class="titel">Die Rechnung</span>
+    <p><strong>Teil = Ganzes : Nenner · Zähler</strong><br>28 : 4 = 7 (ein Stück), 7 · 3 = 21.</p>
+  </div>
+
+  <h2><span class="nr">2</span>Was ist hier das Ganze?</h2>
+  <p>Noch nicht rechnen, nur das Ganze finden.</p>
+  <div class="aufgabe mc" data-id="G1">
+    <p class="frage">„In einem Chor singen 32 Kinder. <span class="bruch"><span>3</span><span>8</span></span> davon sind Jungen.“ Was ist das Ganze?</p>
+    <div class="optionen">
+      <button data-richtig>die 32 Kinder im Chor</button>
+      <button>die Jungen</button>
+      <button>8 Kinder</button>
+      <button>die Mädchen</button>
+    </div>
+    <p class="erklaerung">„davon“ zeigt auf die 32 Kinder. Die Jungen sind der <strong>Teil</strong>, den man ausrechnen kann (12).</p>
+  </div>
+  <div class="aufgabe mc" data-id="G2">
+    <p class="frage">„Ein Garten ist 20 m lang und 12 m breit. Auf <span class="bruch"><span>1</span><span>3</span></span> des Gartens wächst Rasen.“ Was ist das Ganze?</p>
+    <div class="optionen">
+      <button>die Länge, 20 m</button>
+      <button>die Breite, 12 m</button>
+      <button data-richtig>die Fläche des Gartens, 20 m · 12 m = 240 m²</button>
+      <button>20 m + 12 m = 32 m</button>
+    </div>
+    <p class="erklaerung">Rasen wächst auf einer <strong>Fläche</strong>. Das Ganze ist also die Gartenfläche, 240 m². Davon <span class="bruch"><span>1</span><span>3</span></span> sind 80 m². Erst die Fläche ausrechnen, dann den Bruchteil nehmen.</p>
+  </div>
+  <div class="aufgabe mc" data-id="G3">
+    <p class="frage">„Tim hat schon 150 Seiten gelesen. Das sind <span class="bruch"><span>3</span><span>5</span></span> des Buches.“ Was ist das Ganze?</p>
+    <div class="optionen">
+      <button>die 150 Seiten</button>
+      <button data-richtig>das ganze Buch, die Seitenzahl steht nicht im Text</button>
+      <button>5 Seiten</button>
+      <button>die Seiten, die Tim noch lesen muss</button>
+    </div>
+    <p class="erklaerung">Die 150 Seiten sind nur <span class="bruch"><span>3</span><span>5</span></span>, also der <strong>Teil</strong>. Das Ganze ist hier <strong>gesucht</strong>. Wie das geht, kommt in Teil 5.</p>
+  </div>
+
+  <h2><span class="nr">3</span>Bruchteil berechnen</h2>
+  <p>Ganzes : Nenner · Zähler. Schreib nur die Zahl.</p>
+  <div class="aufgabe eingabe" data-id="V1" data-loesung="12" data-muster="^\D*12\D*$">
+    <p class="frage"><span class="bruch"><span>3</span><span>8</span></span> der 32 Kinder im Chor sind Jungen. Wie viele Jungen?</p>
+    <p class="erklaerung">32 : 8 = 4, 4 · 3 = <strong>12 Jungen</strong>.</p>
+  </div>
+  <div class="aufgabe eingabe" data-id="V2" data-loesung="18" data-muster="^\D*18([,.]0+)?\D*$">
+    <p class="frage">Ein Pulli kostet 45 €. Lea hat schon <span class="bruch"><span>2</span><span>5</span></span> davon gespart. Wie viel Euro hat sie gespart?</p>
+    <p class="erklaerung">45 : 5 = 9, 9 · 2 = <strong>18 €</strong>.</p>
+  </div>
+  <div class="aufgabe eingabe" data-id="V3" data-loesung="50" data-muster="^\D*50\D*$">
+    <p class="frage">Wie viele Minuten sind <span class="bruch"><span>5</span><span>6</span></span> einer Stunde?</p>
+    <p class="erklaerung">Das Ganze ist 1 Stunde = 60 Minuten. 60 : 6 = 10, 10 · 5 = <strong>50 Minuten</strong>.</p>
+  </div>
+
+  <h2><span class="nr">4</span>Der Rest</h2>
+  <p>Das Ganze ist immer <strong>1</strong>, also zum Beispiel <span class="bruch"><span>5</span><span>5</span></span> oder <span class="bruch"><span>8</span><span>8</span></span>. Wenn ein Anteil gegeben ist, ist der Rest das, was bis zum Ganzen fehlt.</p>
+  <svg class="streifen" viewBox="0 0 320 98" role="img" aria-label="Streifen in 5 Stücken: 1 Stück Oberstufe, 4 Stücke Rest">
+    <path class="klammer" d="M10 24 v-5 h300 v5"/>
+    <text x="160" y="13" class="klammer-text">Ganzes: alle Schüler = 5/5</text>
+    <rect class="teil" x="10" y="28" width="60" height="36"/>
+    <rect class="feld" x="70" y="28" width="60" height="36"/>
+    <rect class="feld" x="130" y="28" width="60" height="36"/>
+    <rect class="feld" x="190" y="28" width="60" height="36"/>
+    <rect class="feld" x="250" y="28" width="60" height="36"/>
+    <text x="40" y="51">1/5</text>
+    <path class="klammer" d="M70 70 v6 h240 v-6"/>
+    <text x="190" y="93" class="klammer-text">Rest: 4/5</text>
+  </svg>
+  <p>Schreib den Bruch mit Schrägstrich, zum Beispiel <code>2/7</code>.</p>
+  <div class="aufgabe eingabe" data-id="R1" data-loesung="4/5" data-muster="^\s*4\s*/\s*5\s*$">
+    <p class="frage">An einer Schule ist <span class="bruch"><span>1</span><span>5</span></span> aller Schüler in der Oberstufe. Welcher Anteil sind die anderen (Unter- und Mittelstufe zusammen)?</p>
+    <p class="erklaerung"><span class="bruch"><span>5</span><span>5</span></span> − <span class="bruch"><span>1</span><span>5</span></span> = <strong><span class="bruch"><span>4</span><span>5</span></span></strong>.</p>
+  </div>
+  <div class="aufgabe eingabe" data-id="R2" data-loesung="5/8" data-muster="^\s*5\s*/\s*8\s*$">
+    <p class="frage"><span class="bruch"><span>3</span><span>8</span></span> der Chorkinder sind Jungen. Welcher Anteil sind Mädchen?</p>
+    <p class="erklaerung"><span class="bruch"><span>8</span><span>8</span></span> − <span class="bruch"><span>3</span><span>8</span></span> = <strong><span class="bruch"><span>5</span><span>8</span></span></strong>.</p>
+  </div>
+  <div class="aufgabe eingabe" data-id="R3" data-loesung="5/12" data-muster="^\s*5\s*/\s*12\s*$">
+    <p class="frage">In einer Tüte Gummibärchen sind <span class="bruch"><span>1</span><span>3</span></span> rot und <span class="bruch"><span>1</span><span>4</span></span> grün. Der Rest ist gelb. Welcher Anteil ist gelb?</p>
+    <p class="erklaerung">Hauptnenner 12: <span class="bruch"><span>4</span><span>12</span></span> + <span class="bruch"><span>3</span><span>12</span></span> = <span class="bruch"><span>7</span><span>12</span></span> rot oder grün. Rest: <span class="bruch"><span>12</span><span>12</span></span> − <span class="bruch"><span>7</span><span>12</span></span> = <strong><span class="bruch"><span>5</span><span>12</span></span></strong>.</p>
+  </div>
+
+  <h2><span class="nr">5</span>Rückwärts: vom Teil zum Ganzen</h2>
+  <p>Manchmal kennst du den <strong>Teil</strong> und suchst das <strong>Ganze</strong>. Dann rechnest du rückwärts: erst <strong>ein</strong> Stück, dann alle Stücke.</p>
+  <svg class="streifen" viewBox="0 0 320 98" role="img" aria-label="Streifen in 5 Stücken, 3 Stücke sind 150 Seiten, also ein Stück 50, das Ganze 250">
+    <path class="klammer" d="M10 24 v-5 h180 v5"/>
+    <text x="100" y="13" class="klammer-text">3/5 = 150 Seiten</text>
+    <rect class="teil" x="10" y="28" width="60" height="36"/>
+    <rect class="teil" x="70" y="28" width="60" height="36"/>
+    <rect class="teil" x="130" y="28" width="60" height="36"/>
+    <rect class="feld" x="190" y="28" width="60" height="36"/>
+    <rect class="feld" x="250" y="28" width="60" height="36"/>
+    <text x="40" y="51">50</text><text x="100" y="51">50</text><text x="160" y="51">50</text><text x="220" y="51">50</text><text x="280" y="51">50</text>
+    <path class="klammer" d="M10 70 v6 h300 v-6"/>
+    <text x="160" y="93" class="klammer-text">Ganzes: 5 · 50 = 250 Seiten</text>
+  </svg>
+  <div class="kasten">
+    <span class="titel">Die Rechnung rückwärts</span>
+    <p><strong>Ganzes = Teil : Zähler · Nenner</strong><br>150 : 3 = 50 (ein Stück), 50 · 5 = 250 Seiten.</p>
+  </div>
+  <div class="aufgabe eingabe" data-id="K1" data-loesung="250" data-muster="^\D*250\D*$">
+    <p class="frage">Tim hat 150 Seiten gelesen, das sind <span class="bruch"><span>3</span><span>5</span></span> des Buches. Wie viele Seiten hat das Buch?</p>
+    <p class="erklaerung">150 : 3 = 50, 50 · 5 = <strong>250 Seiten</strong>.</p>
+  </div>
+  <div class="aufgabe eingabe" data-id="K2" data-loesung="18" data-muster="^\D*18\D*$">
+    <p class="frage">Mia ist schon 12 km geradelt. Das sind <span class="bruch"><span>2</span><span>3</span></span> der ganzen Strecke. Wie lang ist die ganze Strecke in km?</p>
+    <p class="erklaerung">12 : 2 = 6 (ein Drittel), 6 · 3 = <strong>18 km</strong>.</p>
+  </div>
+  <p>Jetzt eine Aufgabe in drei Schritten. <strong>Lies genau, wonach jeder Schritt fragt.</strong></p>
+  <div class="kasten">
+    <p>An einem Gymnasium sind 360 Schüler in der Unterstufe und 300 in der Mittelstufe. <span class="bruch"><span>1</span><span>4</span></span> aller Schüler besucht die Oberstufe.</p>
+  </div>
+  <div class="aufgabe eingabe" data-id="K3" data-loesung="3/4" data-muster="^\s*3\s*/\s*4\s*$">
+    <p class="frage">Schritt 1: Unter- und Mittelstufe zusammen sind 660 Schüler. Welcher <strong>Anteil</strong> aller Schüler ist das?</p>
+    <p class="erklaerung"><span class="bruch"><span>1</span><span>4</span></span> ist Oberstufe, also sind die 660 der Rest: <strong><span class="bruch"><span>3</span><span>4</span></span></strong>. Die 660 sind <em>nicht</em> das Ganze!</p>
+  </div>
+  <div class="aufgabe eingabe" data-id="K4" data-loesung="880" data-muster="^\D*880\D*$">
+    <p class="frage">Schritt 2: Wie viele Schüler hat das Gymnasium <strong>insgesamt</strong>?</p>
+    <p class="erklaerung">660 sind <span class="bruch"><span>3</span><span>4</span></span>. 660 : 3 = 220 (ein Viertel), 220 · 4 = <strong>880 Schüler</strong>.</p>
+  </div>
+  <div class="aufgabe eingabe" data-id="K5" data-loesung="220" data-muster="^\D*220\D*$">
+    <p class="frage">Schritt 3: Wie viele Schüler sind in der <strong>Oberstufe</strong>?</p>
+    <p class="erklaerung">Ein Viertel hast du schon in Schritt 2 ausgerechnet: <strong>220</strong>. Probe: 360 + 300 + 220 = 880. ✓</p>
+  </div>
+
+  <h2><span class="nr">6</span>Die Falle: Fehler finden und beschreiben</h2>
+  <p>Lisa hat dieselbe Aufgabe so gerechnet:</p>
+  <div class="kasten warnung">
+    <p>360 + 300 = 660<br>660 : 4 = 165 Oberstufe<br>660 + 165 = 825 Schüler insgesamt</p>
+  </div>
+  <div class="aufgabe mc" data-id="F1">
+    <p class="frage">Was hat Lisa falsch gemacht?</p>
+    <div class="optionen">
+      <button data-richtig>Sie hat <span class="bruch"><span>1</span><span>4</span></span> von 660 genommen. Aber 660 sind nicht das Ganze, sondern nur <span class="bruch"><span>3</span><span>4</span></span>.</button>
+      <button>Sie hat sich verrechnet: 660 : 4 ist nicht 165.</button>
+      <button>Sie hätte 660 · 4 rechnen müssen.</button>
+      <button>Sie hätte 360 − 300 rechnen müssen.</button>
+    </div>
+    <p class="erklaerung">660 : 4 = 165 stimmt sogar. Aber die Rechnung passt nicht zum Text: <span class="bruch"><span>1</span><span>4</span></span> gilt für <strong>alle</strong> Schüler, und die kennt Lisa noch nicht. Mit 825 wäre die Oberstufe 825 : 4 ≈ 206, nicht 165. Das passt nicht zusammen.</p>
+  </div>
+  <div class="aufgabe selbst" data-id="F2">
+    <p class="frage">In der Schulaufgabe heißt es oft „<strong>Beschreibe</strong> den Fehler“. Dann reicht es nicht, richtig zu rechnen. Du musst in <strong>ganzen Sätzen</strong> sagen, was falsch ist. Beschreibe Lisas Fehler in zwei bis drei Sätzen. Prüf dann jeden Punkt und hake ihn ab.</p>
+    <ul class="kernpunkte">
+      <li>Ich sage, was Lisa gerechnet hat (ein Viertel von 660).</li>
+      <li>Ich sage, warum das falsch ist (660 sind nicht alle Schüler, sondern nur drei Viertel).</li>
+      <li>Ich sage, wie es richtig geht (660 : 3 · 4 = 880).</li>
+      <li>Ich habe ganze Sätze geschrieben, nicht nur Zahlen.</li>
+    </ul>
+  </div>
+
+  <h2><span class="nr">7</span>Sachaufgaben mit Antwortsatz</h2>
+  <p>Jetzt ohne Hilfe. Frag dich zuerst: <strong>Was ist das Ganze? Ist es gegeben oder gesucht?</strong> Rechne auf einem Zettel. Du darfst die Zahl oder einen ganzen Antwortsatz eintippen.</p>
+  <div class="aufgabe eingabe" data-id="A1" data-loesung="28" data-muster="^\D*28\D*$">
+    <p class="frage">Auf einer Klassenfahrt sind 36 Kinder. <span class="bruch"><span>2</span><span>9</span></span> davon essen vegetarisch. Wie viele Kinder essen <strong>nicht</strong> vegetarisch?</p>
+    <p class="erklaerung">Das Ganze ist gegeben (36). 36 : 9 = 4, 4 · 2 = 8 vegetarisch, 36 − 8 = <strong>28</strong>. Oder gleich mit dem Rest: <span class="bruch"><span>7</span><span>9</span></span> von 36 = 4 · 7 = 28.</p>
+  </div>
+  <div class="aufgabe eingabe" data-id="A2" data-loesung="240" data-muster="^\D*240\D*$">
+    <p class="frage">Im Schwimmverein sind <span class="bruch"><span>3</span><span>8</span></span> der Mitglieder Kinder. Es gibt 150 Erwachsene. Wie viele Mitglieder hat der Verein?</p>
+    <p class="erklaerung">Das Ganze ist gesucht. Die 150 Erwachsenen sind der Rest: <span class="bruch"><span>5</span><span>8</span></span>. 150 : 5 = 30 (ein Achtel), 30 · 8 = <strong>240 Mitglieder</strong>.</p>
+  </div>
+  <div class="aufgabe selbst" data-id="A3">
+    <p class="frage">Schreib den <strong>Antwortsatz</strong> zum Schwimmverein ins Feld, so wie in der Schulaufgabe. Prüf dann jeden Punkt und hake ihn ab.</p>
+    <ul class="kernpunkte">
+      <li>Es ist ein ganzer Satz.</li>
+      <li>Er beantwortet genau die Frage (Mitglieder insgesamt, nicht Kinder oder Erwachsene).</li>
+      <li>Die Zahl hat eine Einheit oder ein Wort dahinter (240 Mitglieder).</li>
+    </ul>
+  </div>
+
+  <div class="kasten">
+    <span class="titel">Merkzettel</span>
+    <ol class="schritte">
+      <li><strong>Was ist das Ganze?</strong> Steht es im Text oder ist es gesucht?</li>
+      <li>Ganzes gegeben → <strong>Teil = Ganzes : Nenner · Zähler</strong>.</li>
+      <li>Ganzes gesucht → <strong>Ganzes = Teil : Zähler · Nenner</strong>. Achtung: Ist der gegebene Teil vielleicht der <strong>Rest</strong>?</li>
+      <li>Probe: Passen Teil und Ganzes zusammen?</li>
+      <li>Antwortsatz.</li>
+    </ol>
+  </div>
+
+  <div id="fortschritt"></div>
+
+  <div class="weiter">
+    <p><strong>Etwas unklar?</strong> Frag nach! Schreib deine Frage auf und schick sie deinen Eltern. Sie können die Frage an Claude weitergeben.</p>
+  </div>
+</main>
+</body>
+</html>
